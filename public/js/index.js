@@ -1,13 +1,17 @@
 function openAnimePage(elementId, baseUrl = "https://gogoanimehd.to/category/") {
     var animeName = document.getElementById(elementId).value
     animeName = animeName.replace(/\s/g, '-')
-    const embedPlayer = document.getElementById("embedPlayer")
-    embedPlayer.src = baseUrl + animeName
+    const iframePlayer = document.getElementById("iframePlayer")
+    iframePlayer.src = baseUrl + animeName
 }
 
 function checkAnimePages(elementId) {
-    openAnimePage(elementId)
-    //openAnimePage(elementId, "https://kissanime.org.ru/Anime/")
+    const providerNumber = document.getElementById("providerNumber").innerHTML;
+
+    if (providerNumber == '0')
+        openAnimePage(elementId)
+    else if (providerNumber == '1')
+        openAnimePage(elementId, "https://kissanime.org.ru/Anime/")
 }
 
 function setup() {

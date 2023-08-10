@@ -1,64 +1,50 @@
 const server = require("./server")
 const config = require("./config")
-const serveError = require("./utils")
-
-const colors = require("colors")
+const utils = require("./utils")
 
 const { app, BrowserWindow } = require("electron")
 
 const electron_reload = require("electron-reload")("./public")
 
-const { ElectronBlocker } = require("@cliqz/adblocker-electron");
-
-const fetch = require("cross-fetch")
-
-const devMode = true
-const adBlockerEnabled = true
+const path = require("path")
+const colors = require("colors")
 
 const createWindow = () => {
-
-
     const window = new BrowserWindow({
         width: 800,
         height: 600,
-        backgroundColor: "#20211f",
-        icon: __dirname + "/assets/img/Jackiore_Miku.png",
+        icon: path.join(__dirname + "/assets/img/Jackiore_Miku.png"),
         webPreferences: {
-            webviewTag: true
+            webviewTag: true,
+            preload: path.join(__dirname, "preload.js")
         }
     })
-
-    if (adBlockerEnabled) {
-        const blocker = ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
-
-        ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
-            blocker.enableBlockingInSession(window.webContents.session);
-        })
-    }
-
-    if (devMode == false)
+    if (config.devMode == false)
         window.setMenu(null)
+
+    if (config.adBlockerEnabled)
+        utils.enableAdBlocker(window)
 
     window.loadFile("public/index.html")
 }
 
-const initHttpServer = () => {
+const initHttpSServer = () => {
     server.httpSServer.on("request", (req, res) => {
         console.log(req.method, req.url);
         if (/^\rest/.test(req.url))
-            serveError();
+            utils.serveError();
         else
-            fileServer.serve(req, res);
+            server.fileServer.serve(req, res);
     })
 
     server.httpSServer.listen(config.port, config.hostname, () => {
-        console.log(`Server running at https://${config.hostname}:${config.port}/`.yellow)
+        console.log(`Server running at https://${config.hostname}:${config.port}/`.green)
     })
 }
 
 
 app.whenReady().then(() => {
-    initHttpServer()
+    initHttpSServer()
 
     let animeName = "naruto"
     server.lookForAnime("https://gogoanimehd.to/category/", animeName)

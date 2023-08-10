@@ -1,5 +1,7 @@
 module.exports = {
-    hostname : "127.0.0.1",
-    port : "5500",
-    frontendDirectory : "./public"
+    hostname: "127.0.0.1",
+    port: "5500",
+    frontendDirectory: "./public",
+    devMode: true,
+    adBlockerEnabled: true
 }
