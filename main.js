@@ -2,12 +2,21 @@ const server = require("./server")
 const config = require("./config")
 const utils = require("./utils")
 
-const { app, BrowserWindow } = require("electron")
+const AnimeScraper = require("ctk-anime-scraper")
+const Gogoanime = new AnimeScraper.Gogoanime()
+
+const { ElectronBlocker } = require("@cliqz/adblocker-electron");
+const fetch = require("cross-fetch")
+
+const url = require("url")
+const fs = require("fs")
+
+const { app, BrowserWindow, ipcMain } = require("electron")
 
 const electron_reload = require("electron-reload")("./public")
 
 const path = require("path")
-const colors = require("colors")
+const colors = require("colors");
 
 const createWindow = () => {
     const window = new BrowserWindow({
@@ -15,40 +24,42 @@ const createWindow = () => {
         height: 600,
         icon: path.join(__dirname + "/assets/img/Jackiore_Miku.png"),
         webPreferences: {
+            nodeIntegration: true,
             webviewTag: true,
             preload: path.join(__dirname, "preload.js")
         }
     })
     if (config.devMode == false)
         window.setMenu(null)
+    else
+        window.webContents.openDevTools()
 
-    if (config.adBlockerEnabled)
-        utils.enableAdBlocker(window)
+    if (config.adBlockerEnabled) {
+        ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
+            blocker.enableBlockingInSession(window.webContents.session);
+        })
+    }
 
     window.loadFile("public/index.html")
 }
 
-const initHttpSServer = () => {
-    server.httpSServer.on("request", (req, res) => {
-        console.log(req.method, req.url);
-        if (/^\rest/.test(req.url))
-            utils.serveError();
-        else
-            server.fileServer.serve(req, res);
-    })
-
-    server.httpSServer.listen(config.port, config.hostname, () => {
-        console.log(`Server running at https://${config.hostname}:${config.port}/`.green)
-    })
+let person = {
+    name: "A",
+    year: 1970
 }
 
-
 app.whenReady().then(() => {
-    initHttpSServer()
+    console.log("Ready...".cyan)
 
-    let animeName = "naruto"
-    server.lookForAnime("https://gogoanimehd.to/category/", animeName)
-    server.lookForAnime("https://kissanime.org.ru/Anime/", animeName)
+    ipcMain.handle("onSetIFramePlayerSrc", async (event, animeName) => {
+        console.log("56: " + animeName)
+        return utils.getAnimeURL(animeName)
+    })
+
+    server.initHttpSServer()
+
+    server.checkProviders()
+
     createWindow()
 
     app.on("active", () => {
@@ -58,6 +69,11 @@ app.whenReady().then(() => {
             createWindow()
         }
     })
+})
+
+app.on("browser-window-focus", () => {
+    console.log("Got Focused...".cyan)
+    server.checkProviders()
 })
 
 app.on("window-all-closed", () => {

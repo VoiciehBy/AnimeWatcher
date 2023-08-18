@@ -21,6 +21,7 @@
     "config-chain": "^1.1.13",
     "core-util-is": "^1.0.3",
     "cross-fetch": "^4.0.0",
+    "ctk-anime-scraper": "^3.5.0",
     "debug": "^4.3.3",
     "decompress-response": "^3.3.0",
     "defer-to-connect": "^1.1.3",
