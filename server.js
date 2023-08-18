@@ -1,8 +1,8 @@
 const http = require("http");
-const https = require("https");
 const config = require("./config")
 const nodeStatic = require("node-static")
 const colors = require("colors")
+const url = require("url")
 
 const isThereIsAnime = (res) => http.STATUS_CODES[res.statusCode] !== "Not Found"
 
@@ -45,7 +45,7 @@ module.exports = {
                     res.end()
                     break
                 default:
-                    server.fileServer.serve(req, res);
+                    fileServer.serve(req, res);
             }
         })
     
