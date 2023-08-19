@@ -15,7 +15,7 @@
 </head>
 
 <body ng-controller="Ctrl as ctrl">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                         <a class="navbar-brand">AnimeWatcher</a>
                         <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
@@ -67,18 +67,6 @@
                                         </li>
                                         <li class="nav-item active">
                                                 <button class="badge rounded-pill text-bg-light text-center">
-                                                        <a class="nav-link" href="https://icons.getbootstrap.com/"
-                                                                target="_blank">
-                                                                <span>
-                                                                        <img src="node_modules/bootstrap-icons/icons/bootstrap.svg"
-                                                                                class="object-fit-fill">
-                                                                </span>
-                                                                Bootstrap Icons
-                                                        </a>
-                                                </button>
-                                        </li>
-                                        <li class="nav-item active">
-                                                <button class="badge rounded-pill text-bg-light text-center">
                                                         <a class="nav-link" href="https://www.pngaaa.com/"
                                                                 target="_blank">
                                                                 <span>
@@ -89,7 +77,7 @@
                                                         </a>
                                                 </button>
                                         </li>
-                                        <li class="nav-item active">
+                                        <!--<li class="nav-item active">
                                                 <button class="badge rounded-pill text-bg-light text-center">
                                                         <a class="nav-link"
                                                                 href="https://www.crunchyroll.com/videos/anime"
@@ -101,20 +89,7 @@
                                                                 Crunchyroll
                                                         </a>
                                                 </button>
-                                        </li>
-                                        <li class="nav-item active">
-                                                <button class="badge rounded-pill text-bg-light text-center">
-                                                        <a class="nav-link"
-                                                                href="https://gogoanimehd.to/anime-list.html"
-                                                                target="_blank">
-                                                                <span><img alt="JACKIORE_MIKU"
-                                                                                src="../assets/img/Jackiore_Miku.png"
-                                                                                width="16" height="16">
-                                                                </span>
-                                                                GogoAnimeTV
-                                                        </a>
-                                                </button>
-                                        </li>
+                                        </li>-->
                                         <li class="nav-item active">
                                                 <button class="badge rounded-pill text-bg-light text-center">
                                                         <a class="nav-link"
@@ -136,34 +111,66 @@
                 <div class="row"><br></div>
                 <div class="row">
                         <div class="col"></div>
-                        <div class="col-9 badge bg-dark">
+                        <div class="col-8 badge bg-dark">
                                 <div class="embed-responsive embed-responsive-4by3">
-                                <iframe id="iframePlayer" class="embed-responsive-item" width="100%" height="660" allowfullscreen ></iframe>
+                                        <iframe id="iframePlayer" class="embed-responsive-item" width="100%"
+                                                height="660" allowfullscreen></iframe>
                                 </div>
                         </div>
-                        <div class="col-2 badge text-center">
+                        <div class="col-3 badge text-center">
                                 <div class="container-fluid">
                                         <div class="row">
                                                 <form id="searchAnimeForm">
-                                                        <div class="input-group">
+                                                        <div class="input-group" width="100%">
                                                                 <span class="input-group-text"
-                                                                        id="searchAnimeFieldAddon"><input id="searchSubmitButton" type="image"
+                                                                        id="searchAnimeFieldAddon"><input
+                                                                                id="searchSubmitButton" type="image"
                                                                                 src="node_modules/bootstrap-icons/icons/search.svg"
-                                                                                value="Search"></span>
-                                                                <input id="searchAnimeField" type="search"
-                                                                        placeholder="Search Anime"
-                                                                        aria-label="Search Anime Field Addon"
-                                                                        aria-describedby="searchAnimeFieldAddon"
-                                                                        ng-model="animeName">
+                                                                                value="Search">
+                                                                        <div>
+                                                                                <input id="searchAnimeField"
+                                                                                        type="search" style="width: 80%"
+                                                                                        placeholder="Search Anime"
+                                                                                        aria-label="Search Anime Field Addon"
+                                                                                        aria-describedby="searchAnimeFieldAddon"
+                                                                                        ng-model="ctrl.animeName">
+                                                                                <input id="animeEpisodeField"
+                                                                                        type="number" min="1"
+                                                                                        style="width: 20%"
+                                                                                        placeholder="Pick Anime Episode Number"
+                                                                                        aria-label="Pick Anime Episode Number"
+                                                                                        aria-describedby="animeEpisodeField"
+                                                                                        ng-model="ctrl.episodeNumber">
+                                                                </span>
                                                         </div>
                                                 </form>
                                         </div>
+                                        <div class="row"><br></div>
+                                        <div class="container-fluid text-center text-bg-success">
+                                                <div class="row">
+                                                        <div class="col"><button class="badge">a</button></div>
+                                                        <div id="animeName" class="col text-capitalize">
+                                                                Anime name: <br>
+                                                                {{ctrl.animeName}}
+                                                        </div>
+                                                        <div id="episodeNumber" class="col">
+                                                                Episode: <br>
+                                                                # {{ctrl.episodeNumber}}
+                                                        </div>
+                                                        <!--<div id="providerNumber" class="col" hidden>
+                                                                Provider: <br>
+                                                                # {{ctrl.providerNumber}}
+                                                        </div>-->
+                                                </div>
+                                        </div>
                                 </div>
                         </div>
-                        <div class="col"></div>
                 </div>
-                <div class="row"><br></div>
-                <div class="row"><br></div>
+        </div>
+        <div class="col"></div>
+        </div>
+        <div class="row text-bg-secondary"><br></div>
+        <div class="row text-bg-secondary"><br></div>
         </div>
         <footer>
                 <div class="container-fluid text-bg-secondary">
@@ -184,9 +191,6 @@
                                                 Sticker</a>
                                 </div>
                         </div>
-                        <div id="providerNumber" hidden>{{providerNumber}}</div>
-                        <div>{{animeName}}</div>
-                        <div>{{animeLink}}</div>
         </footer>
 
         <script>

@@ -1,8 +1,9 @@
 const http = require("http");
-const config = require("./config")
 const nodeStatic = require("node-static")
 const colors = require("colors")
 const url = require("url")
+
+const config = require("./config")
 
 const isThereIsAnime = (res) => http.STATUS_CODES[res.statusCode] !== "Not Found"
 
@@ -25,11 +26,11 @@ module.exports = {
         checkProvider()
         checkProvider("http://kissanime.org.ru/Anime/")
     },
-    initHttpSServer : () => {
+    initHttpSServer: () => {
         httpSServer.on("request", (req, res) => {
             console.log(req.method, req.url);
             let parsed = url.parse(req.url, true)
-    
+
             switch (parsed.pathname) {
                 case "/get":
                     res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" })
@@ -48,7 +49,7 @@ module.exports = {
                     fileServer.serve(req, res);
             }
         })
-    
+
         httpSServer.listen(config.port, config.hostname, () => {
             console.log(`Server running at http://${config.hostname}:${config.port}/`.green)
         })
