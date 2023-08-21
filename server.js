@@ -1,5 +1,4 @@
 const http = require("http");
-const nodeStatic = require("node-static")
 const colors = require("colors")
 const url = require("url")
 
@@ -19,7 +18,11 @@ const checkProvider = (baseUrl = "http://gogoanimehd.to/category/") => {
 }
 
 const httpSServer = http.createServer()
-const fileServer = new nodeStatic.Server(config.frontendDirectory)
+
+let person = {
+    name : "",
+    year : 1970
+}
 
 module.exports = {
     checkProviders: () => {
@@ -45,8 +48,6 @@ module.exports = {
                     res.write(JSON.stringify(person))
                     res.end()
                     break
-                default:
-                    fileServer.serve(req, res);
             }
         })
 
