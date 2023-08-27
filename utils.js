@@ -21,12 +21,12 @@ function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
     })
 }
 
-function lookForAnimeEpisodeCount(animeName="naruto",timeout = 100) {
+function lookForAnimeEpisodeCount(animeName = "naruto", timeout = 100) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             Gogoanime.search(animeName).then(results => {
                 Gogoanime.fetchAnime(results[0].link).then(anime => {
-                   resolve(anime.episodeCount)
+                    resolve(anime.episodeCount)
                 })
             })
         }, timeout)

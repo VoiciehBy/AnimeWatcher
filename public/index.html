@@ -10,22 +10,22 @@
 
         <title>Anime Watcher by VoiciehBy</title>
         <base href="./">
-        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="node_modules/angular/angular.min.js"></script>
 </head>
 
 <body ng-controller="Ctrl as ctrl">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                         <a class="navbar-brand">AnimeWatcher</a>
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
-                                class="navbar-toggler" aria-controls="navbarMain" aria-expanded="false"
+                        <button type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar"
+                                class="navbar-toggler" aria-controls="topNavbar" aria-expanded="false"
                                 aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                                 Menu
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarMain">
-                                <ul class="navbar-nav gap-2">
+                        <div class="collapse navbar-collapse" id="topNavbar">
+                                <ul class="navbar-nav gap-2 ms-auto">
                                         <li class="nav-item active">
                                                 <a class="nav-link" href="#"></a>
                                         </li>
@@ -44,41 +44,6 @@
                                         </li>
                                         <li class="nav-item active">
                                                 <button class="badge rounded-pill text-bg-light text-center">
-                                                        <a class="nav-link" href="https://nodejs.org/" target="_blank">
-                                                                <span>
-                                                                        <img src="node_modules/bootstrap-icons/icons/hexagon-fill.svg"
-                                                                                class="object-fit-fill">
-                                                                </span>
-                                                                NodeJs
-                                                        </a>
-                                                </button>
-                                        </li>
-                                        <li class="nav-item active">
-                                                <button class="badge rounded-pill text-bg-light text-center">
-                                                        <a class="nav-link" href="https://getbootstrap.com/"
-                                                                target="_blank">
-                                                                <span>
-                                                                        <img src="node_modules/bootstrap-icons/icons/bootstrap.svg"
-                                                                                class="object-fit-fill">
-                                                                </span>
-                                                                Bootstrap 5.3.1
-                                                        </a>
-                                                </button>
-                                        </li>
-                                        <li class="nav-item active">
-                                                <button class="badge rounded-pill text-bg-light text-center">
-                                                        <a class="nav-link" href="https://www.pngaaa.com/"
-                                                                target="_blank">
-                                                                <span>
-                                                                        <img src="node_modules/bootstrap-icons/icons/image-fill.svg"
-                                                                                class="object-fit-fill">
-                                                                </span>
-                                                                PngAAA
-                                                        </a>
-                                                </button>
-                                        </li>
-                                        <!--<li class="nav-item active">
-                                                <button class="badge rounded-pill text-bg-light text-center">
                                                         <a class="nav-link"
                                                                 href="https://www.crunchyroll.com/videos/anime"
                                                                 target="_blank">
@@ -89,7 +54,7 @@
                                                                 Crunchyroll
                                                         </a>
                                                 </button>
-                                        </li>-->
+                                        </li>
                                         <li class="nav-item active">
                                                 <button class="badge rounded-pill text-bg-light text-center">
                                                         <a class="nav-link"
@@ -126,7 +91,8 @@
                                                                         id="searchAnimeFieldAddon"><input
                                                                                 id="searchSubmitButton" type="image"
                                                                                 src="node_modules/bootstrap-icons/icons/search.svg"
-                                                                                value="Search">
+                                                                                value="Search"
+                                                                                ng-click="ctrl.setEpisodeCount(ctrl.setEpisodeCount)">
                                                                         <div>
                                                                                 <input id="searchAnimeField"
                                                                                         type="search" style="width: 80%"
@@ -140,7 +106,14 @@
                                                                                         placeholder="Pick Anime Episode Number"
                                                                                         aria-label="Pick Anime Episode Number"
                                                                                         aria-describedby="animeEpisodeField"
-                                                                                        ng-model="ctrl.episodeNumber">
+                                                                                        ng-model="ctrl.currentEpisode">
+                                                                                <input id="episodeCountPicker"
+                                                                                        type="number" min="1"
+                                                                                        style="width: 20%"
+                                                                                        placeholder="Pick Anime Episode Count"
+                                                                                        aria-label="Pick Anime Episode Count"
+                                                                                        aria-describedby="episodeCountPicker"
+                                                                                        ng-model="ctrl.episodeCount">
                                                                 </span>
                                                         </div>
                                                 </form>
@@ -148,24 +121,81 @@
                                         <div class="row"><br></div>
                                         <div class="container-fluid text-center text-bg-success">
                                                 <div class="row">
-                                                        <div class="col"><button class="badge">a</button></div>
-                                                        <div id="animeName" class="col text-capitalize">
-                                                                Anime name: <br>
-                                                                {{ctrl.animeName}}
+                                                        <div class="col">
+                                                                <nav class="navbar navbar">
+                                                                        <div class="container-fluid">
+                                                                                <div class="btn-group" role="group"
+                                                                                        aria-label="Anime Selection Button Group">
+                                                                                        <button class="navbar-toggler"
+                                                                                                type="button"
+                                                                                                data-bs-toggle="collapse"
+                                                                                                data-bs-target="#selectAnimeNavbar"
+                                                                                                aria-controls="selectAnimeNavbar"
+                                                                                                aria-expanded="false"
+                                                                                                aria-label="Toggle Anime Selection">
+                                                                                                <span
+                                                                                                        class="navbar-toggler-icon"></span>
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn badge text-bg-secondary">
+                                                                                                <span id="animeName"
+                                                                                                        class="text-capitalize">
+                                                                                                        {{ctrl.animeName}}
+                                                                                                </span>
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn badge text-bg-dark">
+                                                                                                <span
+                                                                                                        id="currentEpisode">
+                                                                                                        Episode:
+                                                                                                        {{ctrl.currentEpisode}}
+                                                                                                </span>
+                                                                                        </button>
+                                                                                        <!--<button
+                                                                                                type="button"
+                                                                                                class="btn text-bg-dark text-center">
+                                                                                                <div id="providerNumber"
+                                                                                                        hidden>
+                                                                                                        Provider:
+                                                                                                        <br>
+                                                                                                        #
+                                                                                                        {{ctrl.providerNumber}}
+                                                                                                </div>
+                                                                                        </button>-->
+                                                                                </div>
+                                                                        </div>
+                                                                </nav>
+                                                                <div class="collapse" id="selectAnimeNavbar">
+                                                                        <div class="container-fluid">
+                                                                                <div class="row"></div>
+                                                                                <div class="row">
+                                                                                        <table
+                                                                                                class="table table-hover">
+                                                                                                <tr ng-repeat="i in [].constructor(ctrl.episodeCount) track by $index"
+                                                                                                        ng-click="ctrl.select($index)"
+                                                                                                        ng-class="{ 'rowSelected': ctrl.episodeNumber == $index}"
+                                                                                                        class="">
+                                                                                                        <td>
+                                                                                                                <h1
+                                                                                                                        class="badge fs-6 text-bg-light text-uppercase">
+                                                                                                                        Episode
+                                                                                                                        {{$index
+                                                                                                                        +
+                                                                                                                        1}}
+                                                                                                                </h1>
+                                                                                                        </td>
+                                                                                                </tr>
+                                                                                        </table>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
                                                         </div>
-                                                        <div id="episodeNumber" class="col">
-                                                                Episode: <br>
-                                                                # {{ctrl.episodeNumber}}
-                                                        </div>
-                                                        <!--<div id="providerNumber" class="col" hidden>
-                                                                Provider: <br>
-                                                                # {{ctrl.providerNumber}}
-                                                        </div>-->
                                                 </div>
                                         </div>
                                 </div>
                         </div>
                 </div>
+        </div>
         </div>
         <div class="col"></div>
         </div>
@@ -173,10 +203,11 @@
         <div class="row text-bg-secondary"><br></div>
         </div>
         <footer>
+                <div id="episodeCountTest">{{ctrl.episodeCount}}</div>
                 <div class="container-fluid text-bg-secondary">
                         <div class="row text-left text-bg-info">
                                 Assets used:</div>
-                        <div class="row">
+                        <div class="row text-bg-info">
                                 <div class="col">
                                         <a href="https://www.iconfinder.com/icons/7663483/social_video_crunchyroll_icon"
                                                 target="_blank">Crunchyroll
@@ -192,13 +223,8 @@
                                 </div>
                         </div>
         </footer>
-
-        <script>
-
-        </script>
-
-        <script src="js/index.js"> </script>
-        <script src="../renderer.js"> </script>
+        <script src="js/index.js"></script>
+        <script src="../renderer.js"></script>
 </body>
 
 </html>

@@ -19,7 +19,6 @@ const createWindow = () => {
         icon: path.join(__dirname + config.iconPath),
         webPreferences: {
             nodeIntegration: true,
-            webviewTag: true,
             preload: path.join(__dirname, "preload.js")
         }
     })
@@ -27,7 +26,7 @@ const createWindow = () => {
         window.setMenu(null)
     else
         window.webContents.openDevTools()
-
+    
     if (config.adBlockerEnabled) {
         ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
             blocker.enableBlockingInSession(window.webContents.session);
@@ -42,6 +41,10 @@ app.whenReady().then(() => {
 
     ipcMain.handle("onSetIFramePlayerSrc", async (event, animeName, episodeNumber) => {
         return utils.getAnimeURL(animeName, episodeNumber)
+    })
+
+    ipcMain.handle("onEpisodeCountSet", async (event, animeName) => {
+        return utils.getAnimeEpisodeCount(animeName)
     })
 
     server.initHttpSServer()
@@ -60,7 +63,6 @@ app.whenReady().then(() => {
 app.on("browser-window-focus", () => {
     console.log("Got Focused...".cyan)
     server.checkProviders()
-    utils.getAnimeEpisodeCount("naruto")
 })
 
 app.on("window-all-closed", () => {
