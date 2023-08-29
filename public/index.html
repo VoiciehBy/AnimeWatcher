@@ -107,13 +107,13 @@
                                                                                         aria-label="Pick Anime Episode Number"
                                                                                         aria-describedby="animeEpisodeField"
                                                                                         ng-model="ctrl.currentEpisode">
-                                                                                <input id="episodeCountPicker"
+                                                                                <!--<input id="episodeCountPicker"
                                                                                         type="number" min="1"
                                                                                         style="width: 20%"
                                                                                         placeholder="Pick Anime Episode Count"
                                                                                         aria-label="Pick Anime Episode Count"
                                                                                         aria-describedby="episodeCountPicker"
-                                                                                        ng-model="ctrl.episodeCount">
+                                                                                        ng-model="ctrl.episodeCount">-->
                                                                 </span>
                                                         </div>
                                                 </form>
@@ -171,7 +171,7 @@
                                                                                 <div class="row">
                                                                                         <table
                                                                                                 class="table table-hover">
-                                                                                                <tr ng-repeat="i in [].constructor(ctrl.episodeCount) track by $index"
+                                                                                                <tr ng-repeat="i in [].constructor(13) track by $index"
                                                                                                         ng-click="ctrl.select($index)"
                                                                                                         ng-class="{ 'rowSelected': ctrl.episodeNumber == $index}"
                                                                                                         class="">

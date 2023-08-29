@@ -7,11 +7,11 @@ app.controller("Ctrl", [function () {
     //ctrl.providerNumber = 0
     ctrl.animeName = "naruto"
     ctrl.currentEpisode = 1
-    ctrl.episodeCount = 13
+    //ctrl.episodeCount = 13
 
-    ctrl.setEpisodeCount = function(x){
+    /*ctrl.setEpisodeCount = function(x){
         ctrl.episodeCount = x
-    }
+    }*/
 
     ctrl.select = function (index) {
         ctrl.currentEpisode = index + 1

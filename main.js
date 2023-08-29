@@ -43,9 +43,9 @@ app.whenReady().then(() => {
         return utils.getAnimeURL(animeName, episodeNumber)
     })
 
-    ipcMain.handle("onEpisodeCountSet", async (event, animeName) => {
+    /*ipcMain.handle("onEpisodeCountSet", async (event, animeName) => {
         return utils.getAnimeEpisodeCount(animeName)
-    })
+    })*/
 
     server.initHttpSServer()
     server.checkProviders()
