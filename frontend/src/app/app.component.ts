@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IpcRenderer } from "electron";
 import * as utils from "../utils";
 
 @Component({
@@ -8,37 +7,41 @@ import * as utils from "../utils";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    ipc: IpcRenderer
-    //providerNumber = 0
-    animeName = "naruto"
-    currentEpisode = 1
-    episodeCount = 15
-
+    title: string = "frontend"
+    //providerNumber: number = 0
+    animeName: string = "akira"
+    currentEpisode: number = 1
+    episodeCount: number = 1
+    episodeNumbers = [].constructor(this.episodeCount)
     constructor() { }
-    
-    setEpisodeCount() {
-        this.episodeCount = this.episodeCount
-    }
 
     select(index: number) {
         this.currentEpisode = index + 1
     }
+
+    setIFramePlayerSrc(animeName = "naruto", episodeNumber = 1, target: HTMLIFrameElement) {
+        utils.getAnimeURL(animeName, episodeNumber).then(result => {
+            console.log(result)
+            target.src = result
+        })
+    }
+
+    setEpisodeCount(animeName = "naruto") {
+        utils.getAnimeEpisodeCount(animeName).then(result => {
+            this.episodeCount = +result
+            this.episodeNumbers = [].constructor(this.episodeCount)
+        })
+    }
+
     onSubmitButtonClick() {
         const searchAnimeField = document.getElementById("searchAnimeField") as HTMLInputElement
         const animeEpisodeField = document.getElementById("animeEpisodeField") as HTMLInputElement
-        const searchSubmitButton = document.getElementById("searchSubmitButton")
         const ifFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
 
-        let animeName = searchAnimeField.value
+        let animeName: string = searchAnimeField.value
         let currentEpisode: number = +animeEpisodeField.value
-        utils.getAnimeURL(animeName, currentEpisode).then(result => {
-            console.log("w:" + result)
-            ifFramePlayer.src = result
-        })
-        utils.getAnimeEpisodeCount(animeName).then(result => {
-            this.episodeCount = result
-        })
-        //console.log("Anime not found...".red)
-        //console.log("Cannot fetch anime episode count".red)
+
+        this.setIFramePlayerSrc(animeName, currentEpisode, ifFramePlayer)
+        this.setEpisodeCount(animeName)
     }
 }

@@ -1,26 +1,21 @@
 const config = require("./config")
-//const utils = require("./utils")
 const server = require("./server")
 
 const fetch = require("cross-fetch")
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
 
-const { app, BrowserWindow} = require("electron")
-
-const path = require("path")
-const colors = require("colors");
+const { app, BrowserWindow } = require("electron")
 
 const createWindow = () => {
     const window = new BrowserWindow({
         width: 1024,
         height: 768,
-        //icon: path.join(__dirname + config.iconPath),
+        icon: config.iconPath,
         webPreferences: {
-            nodeIntegration: true,
-            preload: path.join(__dirname, "preload.js")
+            nodeIntegration: true
         }
     })
-    if (config.devMode == false)
+    if (config.devMode === false)
         window.setMenu(null)
     else
         window.webContents.openDevTools()
@@ -31,7 +26,7 @@ const createWindow = () => {
         })
     }
 
-    window.loadFile("frontend/dist/frontend/index.html")
+    window.loadFile(config.frontendDirectory + "index.html")
 }
 
 app.whenReady().then(() => {
