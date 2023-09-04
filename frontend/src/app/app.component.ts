@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as utils from "../utils";
+import * as utils from "../../../utils";
 
 @Component({
     selector: 'app-root',
@@ -19,14 +19,14 @@ export class AppComponent {
         this.currentEpisode = index + 1
     }
 
-    setIFramePlayerSrc(animeName = "naruto", episodeNumber = 1, target: HTMLIFrameElement) {
+    setIFramePlayerSrc(animeName = "akira", episodeNumber = 1, target: HTMLIFrameElement) {
         utils.getAnimeURL(animeName, episodeNumber).then(result => {
             console.log(result)
             target.src = result
         })
     }
 
-    setEpisodeCount(animeName = "naruto") {
+    setEpisodeCount(animeName = "akira") {
         utils.getAnimeEpisodeCount(animeName).then(result => {
             this.episodeCount = +result
             this.episodeNumbers = [].constructor(this.episodeCount)

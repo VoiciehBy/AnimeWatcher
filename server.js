@@ -4,6 +4,12 @@ const url = require("url")
 
 const config = require("./config")
 
+const serveError = (res, code) => {
+    res.writeHead(code, { "Content-Type": "text/plain;charset=utf-8" });
+    res.write("Error, xDddd....")
+    res.end()
+}
+
 const isThereIsAnime = (res) => http.STATUS_CODES[res.statusCode] !== "Not Found"
 
 const checkProvider = (baseUrl = "http://gogoanimehd.to/category/") => {
