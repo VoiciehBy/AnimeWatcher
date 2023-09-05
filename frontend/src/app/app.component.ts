@@ -13,16 +13,12 @@ export class AppComponent {
     currentEpisode: number = 1
     episodeCount: number = 1
     episodeNumbers = [].constructor(this.episodeCount)
+    iFramePlayer: HTMLIFrameElement
     constructor() { }
 
-    select(index: number) {
-        this.currentEpisode = index + 1
-    }
-
-    setIFramePlayerSrc(animeName = "akira", episodeNumber = 1, target: HTMLIFrameElement) {
+    setIFramePlayerSrc(animeName = "akira", episodeNumber = 1) {
         utils.getAnimeURL(animeName, episodeNumber).then(result => {
-            console.log(result)
-            target.src = result
+            this.iFramePlayer.src = result
         })
     }
 
@@ -34,14 +30,13 @@ export class AppComponent {
     }
 
     onSubmitButtonClick() {
-        const searchAnimeField = document.getElementById("searchAnimeField") as HTMLInputElement
-        const animeEpisodeField = document.getElementById("animeEpisodeField") as HTMLInputElement
-        const ifFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
+        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
+        this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
+        this.setEpisodeCount(this.animeName)
+    }
 
-        let animeName: string = searchAnimeField.value
-        let currentEpisode: number = +animeEpisodeField.value
-
-        this.setIFramePlayerSrc(animeName, currentEpisode, ifFramePlayer)
-        this.setEpisodeCount(animeName)
+    selectEpisode(index: number) {
+        this.currentEpisode = index + 1
+        this.onSubmitButtonClick()
     }
 }
