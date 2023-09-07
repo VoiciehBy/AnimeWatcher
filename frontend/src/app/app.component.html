@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a class="navbar-brand">AnimeWatcher</a>
-    <button type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" class="navbar-toggler"
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar"
       aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       Menu
     </button>
-    <div class="collapse navbar-collapse" id="topNavbar">
+    <div id="topNavbar" class="collapse navbar-collapse">
       <ul class="navbar-nav gap-2 ms-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#"></a>
@@ -58,18 +58,14 @@
       <div class="col-3 badge text-center">
         <div class="container-fluid">
           <div class="row">
-            <form id="searchAnimeForm">
+            <form>
               <div class="input-group" width="100%">
-                <span class="input-group-text" id="searchAnimeFieldAddon">
-                  <input id="searchSubmitButton" type="image" src="../../node_modules/bootstrap-icons/icons/search.svg"
-                    value="Search" (click)="onSubmitButtonClick()">
-                  <input id="searchAnimeField" type="search" style="width: 80%" placeholder="Search Anime"
+                <span id="searchAnimeFieldAddon" class="input-group-text">
+                  <input type="image" src="../../node_modules/bootstrap-icons/icons/search.svg" value="Search"
+                    (click)="onSubmitButtonClick()">
+                  <input id="searchAnimeField" type="search" placeholder="Search Anime"
                     aria-label="Search Anime Field Addon" aria-describedby="searchAnimeFieldAddon"
                     [(ngModel)]="animeName" [ngModelOptions]="{standalone: true}">
-                  <input id="animeEpisodeField" type="number" min="1" style="width: 20%"
-                    placeholder="Pick Anime Episode Number" aria-label="Pick Anime Episode Number"
-                    aria-describedby="animeEpisodeFieldAddon" [(ngModel)]="currentEpisode"
-                    [ngModelOptions]="{standalone: true}">
                 </span>
               </div>
             </form>
@@ -86,46 +82,33 @@
                         aria-label="Toggle Anime Selection">
                         <span class="navbar-toggler-icon"></span>
                       </button>
-                      <button type="button" class="btn badge text-bg-secondary">
-                        <span id="animeNameSpan" class="text-capitalize">
-                          {{animeName}}
-                        </span>
+                      <button class="btn badge text-bg-secondary" type="button">
+                        <span class="text-capitalize"> {{animeName}} </span>
                       </button>
-                      <button type="button" class="btn badge text-bg-dark">
-                        <span id="currentEpisodeSpan">
-                          Episode:
-                          {{currentEpisode}}
-                        </span>
+                      <button class="btn badge text-bg-dark" type="button">
+                        <span> Episode:{{currentEpisode}} </span>
                       </button>
-                      <!--<button
-                                                            type="button"
-                                                            class="btn text-bg-dark text-center">
-                                                            <div id="providerNumber"
-                                                                    hidden>
-                                                                    Provider:
-                                                                    <br>
-                                                                    #
-                                                                    {{ctrl.providerNumber}}
-                                                            </div>
-                                                    </button>-->
+                      <div hidden>
+                        <button class="btn text-bg-dark text-center" type="button">
+                          <span> Provider:<br> # {{providerNumber}} </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </nav>
-                <div class="collapse" id="selectAnimeNavbar">
+                <div id="selectAnimeNavbar" class="collapse">
                   <div class="container-fluid">
                     <div class="row"></div>
                     <div class="row">
-                      <table class="table table-hover">
-                        <tr *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)"
-                          [ngClass]="{'rowSelected': currentEpisode === i + 1}">
-                          <td>
-                            <h1 class="badge fs-6 text-bg-light text-uppercase">
-                              Episode
-                              {{i + 1}}
-                            </h1>
-                          </td>
-                        </tr>
-                      </table>
+                      <div class="d-grid gap-2 mx-auto">
+                        <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
+                          <button class="btn btn-light badge fs-6 text-uppercase" type="button">
+                            {{animeName}} - Episode {{i + 1}}
+                          </button>
+                        </div>
+                        <div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -134,30 +117,27 @@
           </div>
         </div>
       </div>
+      <div class="col"></div>
     </div>
-  </div>
-  <div class="col"></div>
-</div>
-<div class="row text-bg-secondary"><br></div>
-<div class="row text-bg-secondary"><br></div>
+    <div class="row text-bg-secondary"><br></div>
+    <div class="row text-bg-secondary"><br></div>
 
-<footer>
-  <div class="container-fluid text-bg-secondary">
-    <div class="row text-left text-bg-info">
-      Assets used:</div>
-    <div class="row text-bg-info">
-      <div class="col">
-        <a href="https://www.iconfinder.com/icons/7663483/social_video_crunchyroll_icon" target="_blank">Crunchyroll
-          Logo</a>
+    <footer>
+      <div class="container-fluid text-bg-secondary">
+        <div class="row text-left text-bg-info"> Assets used: </div>
+        <div class="row text-bg-info">
+          <div class="col">
+            <a href="https://www.iconfinder.com/icons/7663483/social_video_crunchyroll_icon" target="_blank">
+              Crunchyroll Logo</a>
+          </div>
+          <div class="col">
+            <a href="https://www.pngaaa.com/detail/1810332" target="_blank">
+              KissAnime Sticker</a>
+          </div>
+          <div class="col">
+            <a href="https://www.pngaaa.com/detail/4817376" target="_blank">
+              App Icon</a>
+          </div>
+        </div>
       </div>
-      <div class="col">
-        <a href="https://www.pngaaa.com/detail/1810332" target="_blank">KissAnime
-          Sticker</a>
-      </div>
-      <div class="col">
-        <a href="https://www.pngaaa.com/detail/4817376" target="_blank">GogoAnimeTV
-          Sticker</a>
-      </div>
-    </div>
-  </div>
-</footer>
+    </footer>

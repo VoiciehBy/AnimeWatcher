@@ -8,7 +8,7 @@ import * as utils from "../../../utils";
 })
 export class AppComponent {
     title: string = "frontend"
-    //providerNumber: number = 0
+    providerNumber: number = 0
     animeName: string = "akira"
     currentEpisode: number = 1
     episodeCount: number = 1

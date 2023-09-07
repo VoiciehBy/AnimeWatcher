@@ -1,1 +1,29 @@
-.rowSelected{background: aqua;}
+body{
+    overflow: hidden;
+    height: 100%
+}
+
+.rowSelected{
+    background: aqua;
+}
+
+#selectAnimeNavbar{
+    overflow-y:scroll;
+    height:125px;
+}
+
+#searchAnimeFieldAddon{
+    width:95%;
+}
+
+#searchAnimeField{
+    width:95%;
+}
+
+.btn-light{
+    color:black;
+}
+
+.btn-light:hover{
+    background:yellow;
+}

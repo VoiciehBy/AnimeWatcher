@@ -1,6 +1,7 @@
 const AnimeScraper = require("ctk-anime-scraper")
 const Gogoanime = new AnimeScraper.Gogoanime()
 
+
 function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
