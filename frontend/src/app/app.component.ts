@@ -30,6 +30,7 @@ export class AppComponent {
     }
 
     onSubmitButtonClick() {
+        this.currentEpisode = 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
         this.setEpisodeCount(this.animeName)
@@ -37,6 +38,8 @@ export class AppComponent {
 
     selectEpisode(index: number) {
         this.currentEpisode = index + 1
-        this.onSubmitButtonClick()
+        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
+        this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
+        this.setEpisodeCount(this.animeName)
     }
 }

@@ -5,10 +5,31 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "VoiciehBy",
   "license": "ISC",
+  "build": {
+    "appId": "animewatcher",
+    "files": [
+      "**/*",
+      "!**/*.ts",
+      "!*.map",
+      "!package.json",
+      "!package-lock.json",
+      {
+        "from": "../dist",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
   "dependencies": {
     "@cliqz/adblocker-electron": "^1.26.6",
     "boolean": "^3.1.4",
@@ -28,7 +49,6 @@
     "define-properties": "^1.1.3",
     "detect-node": "^2.1.0",
     "duplexer3": "^0.1.4",
-    "electron": "^25.3.2",
     "encodeurl": "^1.0.2",
     "end-of-stream": "^1.4.4",
     "env-paths": "^2.2.1",
@@ -91,5 +111,10 @@
     "wrappy": "^1.0.2",
     "yallist": "^4.0.0",
     "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "electron": "^26.2.0",
+    "electron-builder": "^24.6.4",
+    "electron-builder-squirrel-windows": "^24.6.4"
   }
 }

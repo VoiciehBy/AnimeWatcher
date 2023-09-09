@@ -14,9 +14,7 @@
         <li class="nav-item active">
           <button class="badge rounded-pill text-bg-light text-center">
             <a class="nav-link" href="https://github.com/VoiciehBy/AnimeWatcher" target="_blank">
-              <span>
-                <img src="../../node_modules/bootstrap-icons/icons/github.svg" class="object-fit-fill">
-              </span>
+              <span><i class="bi bi-github object-fit-fill fs-6"></i></span>
               AnimeWatcher
             </a>
           </button>
@@ -24,7 +22,8 @@
         <li class="nav-item active">
           <button class="badge rounded-pill text-bg-light text-center">
             <a class="nav-link" href="https://www.crunchyroll.com/videos/anime" target="_blank">
-              <span><img alt="CRUNCHYROLL_LOGO" src="assets/img/Crunchyroll_Logo.svg" width="16" height="16">
+              <span><img alt="CRUNCHYROLL_LOGO" src="assets/img/Crunchyroll_Logo.svg" width="16"
+                  height="16">
               </span>
               Crunchyroll
             </a>
@@ -61,7 +60,7 @@
             <form>
               <div class="input-group" width="100%">
                 <span id="searchAnimeFieldAddon" class="input-group-text">
-                  <input type="image" src="../../node_modules/bootstrap-icons/icons/search.svg" value="Search"
+                  <input type="image" src="assets/img/search.svg" value="Search"
                     (click)="onSubmitButtonClick()">
                   <input id="searchAnimeField" type="search" placeholder="Search Anime"
                     aria-label="Search Anime Field Addon" aria-describedby="searchAnimeFieldAddon"
@@ -103,7 +102,7 @@
                       <div class="d-grid gap-2 mx-auto">
                         <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
                           <button class="btn btn-light badge fs-6 text-uppercase" type="button">
-                            {{animeName}} - Episode {{i + 1}}
+                            Episode {{i + 1}}
                           </button>
                         </div>
                         <div>

@@ -25,8 +25,7 @@ const createWindow = () => {
             blocker.enableBlockingInSession(window.webContents.session);
         })
     }
-
-    window.loadFile(config.frontendDirectory + "index.html")
+    window.loadURL(`${__dirname}/frontend/dist/index.html`)
 }
 
 app.whenReady().then(() => {
