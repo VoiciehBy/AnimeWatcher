@@ -9,8 +9,9 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
+  "private": true,
   "author": "VoiciehBy",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "build": {
     "appId": "animewatcher",
     "files": [
@@ -20,14 +21,15 @@
       "!package.json",
       "!package-lock.json",
       {
-        "from": "../dist",
+        "from": "dist",
         "filter": [
           "**/*"
         ]
       }
     ],
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "frontend/dist/assets/img/Jackiore_Miku.png"
     }
   },
   "dependencies": {

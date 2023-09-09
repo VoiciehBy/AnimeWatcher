@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Frontend to AnimeWatcher",
   "main": "../main.js",
   "scripts": {
@@ -12,6 +12,8 @@
     "electron-build": "ng build --configuration production"
   },
   "private": true,
+  "author":"VoiciehBy",
+  "license":"GPL-3.0-or-later",
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",

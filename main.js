@@ -10,7 +10,7 @@ const createWindow = () => {
     const window = new BrowserWindow({
         width: 1024,
         height: 768,
-        icon: config.iconPath,
+        icon: `${__dirname}/frontend/dist/assets/img/Jackiore_Miku.png`,
         webPreferences: {
             nodeIntegration: true
         }
