@@ -22,8 +22,7 @@
         <li class="nav-item active">
           <button class="badge rounded-pill text-bg-light text-center">
             <a class="nav-link" href="https://www.crunchyroll.com/videos/anime" target="_blank">
-              <span><img alt="CRUNCHYROLL_LOGO" src="assets/img/Crunchyroll_Logo.svg" width="16"
-                  height="16">
+              <span><img alt="CRUNCHYROLL_LOGO" src="assets/img/Crunchyroll_Logo.svg" width="16" height="16">
               </span>
               Crunchyroll
             </a>
@@ -45,23 +44,19 @@
 
 <div class="content" role="main">
   <div class="container-fluid text-bg-secondary">
-    <div class="row"><br></div>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col-8 badge bg-dark">
-        <div class="embed-responsive embed-responsive-4by3">
-          <iframe id="iframePlayer" class="embed-responsive-item" width="100%" height="500" allowfullscreen></iframe>
+    <div id="mainRow" class="row">
+      <div class="col-9 badge bg-dark embed-responsive embed-responsive-16by9">
+        <div>
+          <iframe id="iframePlayer" class="embed-responsive-item" allowfullscreen></iframe>
         </div>
-
       </div>
       <div class="col-3 badge text-center">
         <div class="container-fluid">
           <div class="row">
             <form>
-              <div class="input-group" width="100%">
+              <div id="searchAnimeForm" class="input-group">
                 <span id="searchAnimeFieldAddon" class="input-group-text">
-                  <input type="image" src="assets/img/search.svg" value="Search"
-                    (click)="onSubmitButtonClick()">
+                  <input type="image" src="assets/img/search.svg" value="Search" (click)="onSubmitButtonClick()">
                   <input id="searchAnimeField" type="search" placeholder="Search Anime"
                     aria-label="Search Anime Field Addon" aria-describedby="searchAnimeFieldAddon"
                     [(ngModel)]="animeName" [ngModelOptions]="{standalone: true}">
@@ -69,44 +64,41 @@
               </div>
             </form>
           </div>
-          <div class="row"><br></div>
           <div class="container-fluid text-center text-bg-success">
             <div class="row">
-              <div class="col">
-                <nav class="navbar navbar">
-                  <div class="container-fluid">
-                    <div class="btn-group" role="group" aria-label="Anime Selection Button Group">
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#selectAnimeNavbar" aria-controls="selectAnimeNavbar" aria-expanded="false"
-                        aria-label="Toggle Anime Selection">
-                        <span class="navbar-toggler-icon"></span>
+              <nav class="navbar navbar">
+                <div class="container-fluid">
+                  <div class="btn-group" role="group" aria-label="Anime Selection Button Group">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#selectAnimeNavbar" aria-controls="selectAnimeNavbar" aria-expanded="false"
+                      aria-label="Toggle Anime Selection">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <button id="animeNameButton" class="btn badge text-bg-secondary" type="button">
+                      <span class="text-capitalize"> {{animeName}} </span>
+                    </button>
+                    <button id="currentEpisodeButton" class="btn badge text-bg-dark" type="button">
+                      <span> Episode:{{currentEpisode}} </span>
+                    </button>
+                    <div hidden>
+                      <button class="btn text-bg-dark text-center" type="button">
+                        <span> Provider:<br> # {{providerNumber}} </span>
                       </button>
-                      <button class="btn badge text-bg-secondary" type="button">
-                        <span class="text-capitalize"> {{animeName}} </span>
-                      </button>
-                      <button class="btn badge text-bg-dark" type="button">
-                        <span> Episode:{{currentEpisode}} </span>
-                      </button>
-                      <div hidden>
-                        <button class="btn text-bg-dark text-center" type="button">
-                          <span> Provider:<br> # {{providerNumber}} </span>
-                        </button>
-                      </div>
                     </div>
                   </div>
-                </nav>
-                <div id="selectAnimeNavbar" class="collapse">
-                  <div class="container-fluid">
-                    <div class="row"></div>
-                    <div class="row">
-                      <div class="d-grid gap-2 mx-auto">
-                        <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
-                          <button class="btn btn-light badge fs-6 text-uppercase" type="button">
-                            Episode {{i + 1}}
-                          </button>
-                        </div>
-                        <div>
-                        </div>
+                </div>
+              </nav>
+              <div id="selectAnimeNavbar" class="collapse">
+                <div class="container-fluid">
+                  <div class="row"></div>
+                  <div class="row">
+                    <div class="d-grid gap-2 mx-auto">
+                      <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
+                        <button id="episodeSelectButton" class="btn btn-light badge fs-6 text-uppercase" type="button">
+                          Episode {{i + 1}}
+                        </button>
+                      </div>
+                      <div>
                       </div>
                     </div>
                   </div>
@@ -116,10 +108,7 @@
           </div>
         </div>
       </div>
-      <div class="col"></div>
     </div>
-    <div class="row text-bg-secondary"><br></div>
-    <div class="row text-bg-secondary"><br></div>
 
     <footer>
       <div class="container-fluid text-bg-secondary">

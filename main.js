@@ -5,20 +5,22 @@ const fetch = require("cross-fetch")
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
 
 const { app, BrowserWindow } = require("electron")
-
+//searchAnimeField < 24 characters anime name
 const createWindow = () => {
     const window = new BrowserWindow({
-        width: 1024,
-        height: 768,
+        width: 1280,
+        height: 720,
+        resizable: false,
+        maximizable: false,
+        fullscreenable: false,
         icon: `${__dirname}/frontend/dist/assets/img/Jackiore_Miku.png`,
         webPreferences: {
+            devTools: config.devMode,
             nodeIntegration: true
         }
     })
-    if (config.devMode === false)
+    if (config.devMode == false)
         window.setMenu(null)
-    else
-        window.webContents.openDevTools()
 
     if (config.adBlockerEnabled) {
         ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
@@ -31,8 +33,10 @@ const createWindow = () => {
 app.whenReady().then(() => {
     console.log("Ready...".cyan)
 
-    server.initHttpSServer()
-    server.checkProviders()
+    if (config.devMode) {
+        server.initHttpSServer()
+        server.checkProviders()
+    }
     createWindow()
 
     app.on("active", () => {
@@ -46,7 +50,8 @@ app.whenReady().then(() => {
 
 app.on("browser-window-focus", () => {
     console.log("Got Focused...".cyan)
-    server.checkProviders()
+    if (config.devMode)
+        server.checkProviders()
 })
 
 app.on("window-all-closed", () => {
