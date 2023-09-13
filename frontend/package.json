@@ -7,13 +7,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "electron-build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "electron-build": "ng build --configuration production"
+    "test": "ng test"
   },
   "private": true,
-  "author":"VoiciehBy",
-  "license":"GPL-3.0-or-later",
+  "author": "VoiciehBy",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",

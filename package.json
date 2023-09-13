@@ -5,10 +5,10 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run electron-build & electron .",
-    "electron-build": "npm run electron-build --prefix ./frontend",
-    "pack": "npm run electron-build & electron-builder --dir",
-    "dist": "npm run electron-build & electron-builder"
+    "start": "npm run build & electron .",
+    "build": "npm run electron-build --prefix ./frontend",
+    "pack": "npm run build & electron-builder --dir",
+    "dist": "npm run build & electron-builder"
   },
   "private": true,
   "author": "VoiciehBy",
@@ -30,6 +30,13 @@
     ],
     "win": {
       "target": "portable",
+      "icon": "frontend/dist/assets/img/Jackiore_Miku.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "icon": "frontend/dist/assets/img/Jackiore_Miku.png"
     }
   },
@@ -117,7 +124,6 @@
   },
   "devDependencies": {
     "electron": "^26.2.0",
-    "electron-builder": "^24.6.4",
-    "electron-builder-squirrel-windows": "^24.6.4"
+    "electron-builder": "^24.6.4"
   }
 }
