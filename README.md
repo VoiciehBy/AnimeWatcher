@@ -14,3 +14,13 @@ npm install
 cd ./frontend
 npm install
 ```
+
+Command to start:
+```
+npm start
+```
+
+Command to build exe:
+```
+npm run dist
+```
