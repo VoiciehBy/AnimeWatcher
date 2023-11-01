@@ -37,7 +37,7 @@ function lookForAnimeEpisodeCount(animeName = "naruto", timeout = 100) {
     })
 }
 
-const utils = module.exports = {
+module.exports = {
     getAnimeURL: (animeName = "naruto", episodeNumber = 1) => lookForAnimeEpisodeURL(animeName, episodeNumber),
     getAnimeEpisodeCount: (animeName = "naruto") => lookForAnimeEpisodeCount(animeName)
 }

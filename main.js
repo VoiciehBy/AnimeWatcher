@@ -1,5 +1,6 @@
 const config = require("./config")
-const server = require("./server")
+
+const colors = require("colors")
 
 const fetch = require("cross-fetch")
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
@@ -33,10 +34,6 @@ const createWindow = () => {
 app.whenReady().then(() => {
     console.log("Ready...".cyan)
 
-    if (config.devMode) {
-        server.initHttpSServer()
-        server.checkProviders()
-    }
     createWindow()
 
     app.on("active", () => {
@@ -50,8 +47,6 @@ app.whenReady().then(() => {
 
 app.on("browser-window-focus", () => {
     console.log("Got Focused...".cyan)
-    if (config.devMode)
-        server.checkProviders()
 })
 
 app.on("window-all-closed", () => {
