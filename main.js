@@ -6,7 +6,7 @@ const fetch = require("cross-fetch")
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
 
 const { app, BrowserWindow } = require("electron")
-//searchAnimeField < 24 characters anime name
+
 const createWindow = () => {
     const window = new BrowserWindow({
         width: 1280,

@@ -49,6 +49,13 @@
         <div>
           <iframe id="iframePlayer" class="embed-responsive-item" allowfullscreen></iframe>
         </div>
+        <!--
+          <div (click)="selectNextEpisode()">
+          <button id="" class="btn btn-light badge fs-6 text-uppercase" type="button">
+            Next Episode
+          </button>
+        </div>
+      -->
       </div>
       <div class="col-3 badge text-center">
         <div class="container-fluid">
@@ -59,7 +66,7 @@
                   <input type="image" src="assets/img/search.svg" value="Search" (click)="onSubmitButtonClick()">
                   <input id="searchAnimeField" type="search" placeholder="Search Anime"
                     aria-label="Search Anime Field Addon" aria-describedby="searchAnimeFieldAddon"
-                    [(ngModel)]="animeName" [ngModelOptions]="{standalone: true}">
+                    [(ngModel)]="animeName" [ngModelOptions]="{standalone: true}" maxlength="23">
                 </span>
               </div>
             </form>

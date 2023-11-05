@@ -42,4 +42,11 @@ export class AppComponent {
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
         this.setEpisodeCount(this.animeName)
     }
+    
+    /*selectNextEpisode() {
+        if (this.currentEpisode + 1 <= this.episodeCount)
+            this.currentEpisode++
+        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
+        this.setIFramePlayerSrc(this.animeName, this.currentEpisode)
+    }*/
 }
