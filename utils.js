@@ -1,6 +1,13 @@
 const AnimeScraper = require("ctk-anime-scraper")
-const Gogoanime = new AnimeScraper.Gogoanime()
 
+class GogoanimeFixed extends AnimeScraper.Gogoanime{
+    constructor({base_url}={}){
+        super(base_url);
+        this.base_url = "https://anitaku.to/";
+    }
+}
+
+const Gogoanime = new GogoanimeFixed()
 
 function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
     return new Promise((resolve, reject) => {
