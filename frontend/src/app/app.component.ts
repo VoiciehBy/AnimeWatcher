@@ -16,17 +16,24 @@ export class AppComponent {
     iFramePlayer: HTMLIFrameElement
     constructor() { }
 
-    setIFramePlayerSrc(animeName = "akira", episodeNumber = 1) {
-        utils.getAnimeURL(animeName, episodeNumber).then(result => {
-            this.iFramePlayer.src = result
+    setIFramePlayerSrc(animeName: string = "akira", episodeNumber: number = 1) {
+        utils.getAnimeURL(animeName, episodeNumber).then(
+            (result: any) => {
+                this.iFramePlayer.src = result
+            }
+        ).catch((err: any) => {
+            console.error(err)
         })
     }
 
-    setEpisodeCount(animeName = "akira") {
-        utils.getAnimeEpisodeCount(animeName).then(result => {
-            this.episodeCount = +result
-            this.episodeNumbers = [].constructor(this.episodeCount)
-        })
+    setEpisodeCount(animeName: string = "akira") {
+        utils.getAnimeEpisodeCount(animeName).then(
+            (result: any) => {
+                this.episodeCount = +result
+                this.episodeNumbers = [].constructor(this.episodeCount)
+            }).catch((err: any) => {
+                console.error(err)
+            })
     }
 
     onSubmitButtonClick() {
@@ -42,7 +49,7 @@ export class AppComponent {
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
         this.setEpisodeCount(this.animeName)
     }
-    
+
     /*selectNextEpisode() {
         if (this.currentEpisode + 1 <= this.episodeCount)
             this.currentEpisode++
