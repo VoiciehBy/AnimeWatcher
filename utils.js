@@ -1,21 +1,7 @@
-const AnimeScraper = require("ctk-anime-scraper")
+const constants = require("./constants")
+const GogoAnime = require("./GogoAnime")
 
-class GogoanimeFixed extends AnimeScraper.Gogoanime {
-    constructor({ base_url } = {}) {
-        super(base_url);
-        this.base_url = "https://anitaku.to/";
-    }
-}
-
-const Gogoanime = new GogoanimeFixed()
-
-const nullEpisode = {
-    name: "Not found",
-    episodeCount: '0',
-    id: "notFound"
-}
-
-const angry_miku_url = "https://s3.amazonaws.com/colorslive/png/552486-rsfMmEPLCm18L2-_.png"
+const Gogoanime = new GogoAnime()
 
 function lookForAnime(animeName) {
     return new Promise((resolve, reject) => {
@@ -41,7 +27,7 @@ function lookForAnimeEpisode(animeName, episodeNumber) {
             })
         }).catch((err) => {
             console.error(err)
-            resolve(nullEpisode)
+            resolve(constants.nullEpisode)
         })
     })
 }
@@ -50,8 +36,8 @@ function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
             lookForAnimeEpisode(animeName, episodeNumber).then(episode => {
-                if (episode == nullEpisode)
-                    resolve(angry_miku_url)
+                if (episode == constants.nullEpisode)
+                    resolve(constants.angry_miku_url)
                 else {
                     let root = "goone.pro"
                     let url = "https://" + root + "/streaming.php?id="

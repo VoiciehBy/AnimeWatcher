@@ -16,6 +16,7 @@ export class AppComponent {
     iFramePlayer: HTMLIFrameElement
     angry_miku_url = "https://s3.amazonaws.com/colorslive/png/552486-rsfMmEPLCm18L2-_.png"
     angry_miku: boolean = false
+
     constructor() { }
 
     setIFramePlayerSrc(animeName: string = "akira", episodeNumber: number = 1) {
@@ -42,7 +43,7 @@ export class AppComponent {
             })
     }
 
-    onSubmitButtonClick() {
+    async onSubmitButtonClick() {
         this.currentEpisode = 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
