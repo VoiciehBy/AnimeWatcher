@@ -48,6 +48,9 @@
       <div class="col-9 badge bg-dark embed-responsive embed-responsive-16by9">
         <div>
           <iframe id="iframePlayer" class="embed-responsive-item" allowfullscreen></iframe>
+          <div *ngIf="angry_miku">
+            <h1>Anime: {{animeName}} was not found...</h1>
+          </div>>
         </div>
         <!--
           <div (click)="selectNextEpisode()">
