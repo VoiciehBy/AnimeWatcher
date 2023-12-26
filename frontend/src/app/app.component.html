@@ -42,23 +42,26 @@
   </div>
 </nav>
 
-<div class="content" role="main">
+<div class="content" role="main"> <!--(window:keyup.e)="selectNextEpisode()">-->
   <div class="container-fluid text-bg-secondary">
     <div id="mainRow" class="row">
       <div class="col-9 badge bg-dark embed-responsive embed-responsive-16by9">
         <div>
           <iframe id="iframePlayer" class="embed-responsive-item" allowfullscreen></iframe>
           <div *ngIf="angry_miku">
-            <h1>Anime: {{animeName}} was not found...</h1>
-          </div>>
+            <h1>
+              <span class="text-capitalize">
+                {{anime1Name}}
+              </span>
+              was not found...
+            </h1>
+          </div>
         </div>
-        <!--
-          <div (click)="selectNextEpisode()">
+        <!--<div (click)="selectNextEpisode()">
           <button id="" class="btn btn-light badge fs-6 text-uppercase" type="button">
             Next Episode
           </button>
-        </div>
-      -->
+        </div>-->
       </div>
       <div class="col-3 badge text-center">
         <div class="container-fluid">

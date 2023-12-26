@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as utils from "../../../utils";
+import * as c from "../../../constants";
 
 @Component({
     selector: 'app-root',
@@ -10,11 +11,11 @@ export class AppComponent {
     title: string = "frontend"
     providerNumber: number = 0
     animeName: string = "akira"
+    anime1Name: string = "akira"
     currentEpisode: number = 1
     episodeCount: number = 1
     episodeNumbers = [].constructor(this.episodeCount)
     iFramePlayer: HTMLIFrameElement
-    angry_miku_url = "https://s3.amazonaws.com/colorslive/png/552486-rsfMmEPLCm18L2-_.png"
     angry_miku: boolean = false
 
     constructor() { }
@@ -23,10 +24,14 @@ export class AppComponent {
         utils.getAnimeURL(animeName, episodeNumber).then(
             (result: any) => {
                 this.iFramePlayer.src = result
-                if (this.iFramePlayer.src === this.angry_miku_url)
+                if (this.iFramePlayer.src === c.angry_miku_url) {
                     this.angry_miku = true
-                else
+                    this.anime1Name = animeName
+                }
+                else {
                     this.angry_miku = false
+                    this.anime1Name = ""
+                }
             }
         ).catch((err: any) => {
             console.error(err)
@@ -43,7 +48,7 @@ export class AppComponent {
             })
     }
 
-    async onSubmitButtonClick() {
+    onSubmitButtonClick() {
         this.currentEpisode = 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
@@ -57,10 +62,12 @@ export class AppComponent {
         this.setEpisodeCount(this.animeName)
     }
 
-    /*selectNextEpisode() {
+    /*
+    selectNextEpisode(): void {
         if (this.currentEpisode + 1 <= this.episodeCount)
             this.currentEpisode++
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.animeName, this.currentEpisode)
-    }*/
+    }
+    */
 }
