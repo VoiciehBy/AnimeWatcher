@@ -11,10 +11,23 @@ function lookForAnime(animeName) {
             else
                 reject(`Cannot find anime: ${animeName}`)
         })
+    }).catch((err) => {
+        console.error(err)
     })
 }
 
-function lookForAnimeEpisode(animeName, episodeNumber) {
+function lookForAnimeName(animeName) {
+    return new Promise((resolve, reject) => {
+        lookForAnime(animeName).then(result => {
+            resolve(result.title)
+        })
+    }).catch((err) => {
+        console.error(err)
+        reject(err)
+    })
+}
+
+function lookForEpisode(animeName, episodeNumber) {
     return new Promise((resolve, reject) => {
         lookForAnime(animeName).then(result => {
             Gogoanime.fetchAnime(result.link).then(anime => {
@@ -32,10 +45,10 @@ function lookForAnimeEpisode(animeName, episodeNumber) {
     })
 }
 
-function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
+function lookForEpisodeURL(animeName, episodeNumber, timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            lookForAnimeEpisode(animeName, episodeNumber).then(episode => {
+            lookForEpisode(animeName, episodeNumber).then(episode => {
                 if (episode == constants.nullEpisode)
                     resolve(constants.angry_miku_url)
                 else {
@@ -51,7 +64,7 @@ function lookForAnimeEpisodeURL(animeName, episodeNumber, timeout = 100) {
     })
 }
 
-function lookForAnimeEpisodeCount(animeName = "naruto", timeout = 100) {
+function lookForEpisodeCount(animeName = "naruto", timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
             lookForAnime(animeName).then(result => {
@@ -69,6 +82,7 @@ function lookForAnimeEpisodeCount(animeName = "naruto", timeout = 100) {
 }
 
 module.exports = {
-    getAnimeURL: (animeName = "naruto", episodeNumber = 1) => lookForAnimeEpisodeURL(animeName, episodeNumber),
-    getAnimeEpisodeCount: (animeName = "naruto") => lookForAnimeEpisodeCount(animeName)
+    getAnimeName: (animeName = "naruto") => lookForAnimeName(animeName),
+    getAnimeURL: (animeName = "naruto", episodeNumber = 1) => lookForEpisodeURL(animeName, episodeNumber),
+    getAnimeEpisodeCount: (animeName = "naruto") => lookForEpisodeCount(animeName)
 }

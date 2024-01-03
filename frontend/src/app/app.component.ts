@@ -18,20 +18,33 @@ export class AppComponent {
     iFramePlayer: HTMLIFrameElement
     angry_miku: boolean = false
 
-    constructor() { }
+    constructor() {}
+
+    setMikuAngry(b: boolean) {
+        this.angry_miku = b
+        if (b)
+            this.anime1Name = this.animeName
+        else
+            this.anime1Name = ""
+    }
 
     setIFramePlayerSrc(animeName: string = "akira", episodeNumber: number = 1) {
+        utils.getAnimeName(animeName).then(
+            (result: any) => {
+                this.animeName = result
+            }
+        ).catch((err: any) => {
+            console.error(err)
+            this.animeName = "cannot_find"
+        })
+
         utils.getAnimeURL(animeName, episodeNumber).then(
             (result: any) => {
                 this.iFramePlayer.src = result
-                if (this.iFramePlayer.src === c.angry_miku_url) {
-                    this.angry_miku = true
-                    this.anime1Name = animeName
-                }
-                else {
-                    this.angry_miku = false
-                    this.anime1Name = ""
-                }
+                if (this.iFramePlayer.src === c.angry_miku_url)
+                    this.setMikuAngry(true)
+                else
+                    this.setMikuAngry(false)
             }
         ).catch((err: any) => {
             console.error(err)
@@ -56,7 +69,7 @@ export class AppComponent {
     }
 
     selectEpisode(index: number) {
-        this.currentEpisode = index + 1
+        this.currentEpisode = index + 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
         this.setEpisodeCount(this.animeName)
