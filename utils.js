@@ -3,23 +3,27 @@ const GogoAnime = require("./GogoAnime")
 
 const Gogoanime = new GogoAnime()
 
-function lookForAnime(animeName) {
+function lookForAnime(searchQuery) {
     return new Promise((resolve, reject) => {
-        Gogoanime.search(animeName).then(results => {
+        Gogoanime.search(searchQuery).then(results => {
             if (results.length !== 0)
                 resolve(results[0])
             else
-                reject(`Cannot find anime: ${animeName}`)
+                reject(`Cannot find anime: ${searchQuery}`)
+        }).catch((err) => {
+            console.error(err)
         })
     }).catch((err) => {
         console.error(err)
     })
 }
 
-function lookForAnimeName(animeName) {
+function lookForSearchQuery(searchQuery) {
     return new Promise((resolve, reject) => {
-        lookForAnime(animeName).then(result => {
+        lookForAnime(searchQuery).then(result => {
             resolve(result.title)
+        }).catch((err) => {
+            console.error(err)
         })
     }).catch((err) => {
         console.error(err)
@@ -27,13 +31,13 @@ function lookForAnimeName(animeName) {
     })
 }
 
-function lookForEpisode(animeName, episodeNumber) {
+function lookForEpisode(searchQuery, episodeNumber) {
     return new Promise((resolve, reject) => {
-        lookForAnime(animeName).then(result => {
+        lookForAnime(searchQuery).then(result => {
             Gogoanime.fetchAnime(result.link).then(anime => {
                 Gogoanime.getEpisodes(anime.slug, episodeNumber).then(episode => {
                     if (anime.slug === undefined)
-                        reject(`Anime (${animeName}) slug does not exist...`)
+                        reject(`Anime (${searchQuery}) slug does not exist...`)
                     else
                         resolve(episode)
                 })
@@ -45,10 +49,10 @@ function lookForEpisode(animeName, episodeNumber) {
     })
 }
 
-function lookForEpisodeURL(animeName, episodeNumber, timeout = 100) {
+function lookForEpisodeURL(searchQuery, episodeNumber, timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            lookForEpisode(animeName, episodeNumber).then(episode => {
+            lookForEpisode(searchQuery, episodeNumber).then(episode => {
                 if (episode == constants.nullEpisode)
                     resolve(constants.angry_miku_url)
                 else {
@@ -64,10 +68,10 @@ function lookForEpisodeURL(animeName, episodeNumber, timeout = 100) {
     })
 }
 
-function lookForEpisodeCount(animeName = "naruto", timeout = 100) {
+function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            lookForAnime(animeName).then(result => {
+            lookForAnime(searchQuery).then(result => {
                 Gogoanime.fetchAnime(result.link).then(anime => {
                     resolve(anime.episodeCount)
                 }).catch((err) => {
@@ -82,7 +86,7 @@ function lookForEpisodeCount(animeName = "naruto", timeout = 100) {
 }
 
 module.exports = {
-    getAnimeName: (animeName = "naruto") => lookForAnimeName(animeName),
-    getAnimeURL: (animeName = "naruto", episodeNumber = 1) => lookForEpisodeURL(animeName, episodeNumber),
-    getAnimeEpisodeCount: (animeName = "naruto") => lookForEpisodeCount(animeName)
+    getSearchQuery: (searchQuery = "naruto") => lookForSearchQuery(searchQuery),
+    getAnimeURL: (searchQuery = "naruto", episodeNumber = 1) => lookForEpisodeURL(searchQuery, episodeNumber),
+    getEpisodeCount: (searchQuery = "naruto") => lookForEpisodeCount(searchQuery)
 }

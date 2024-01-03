@@ -7,38 +7,38 @@ import * as c from "../../../constants";
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
     title: string = "frontend"
     providerNumber: number = 0
+    searchQuery: string = "akira"
     animeName: string = "akira"
-    anime1Name: string = "akira"
     currentEpisode: number = 1
     episodeCount: number = 1
     episodeNumbers = [].constructor(this.episodeCount)
     iFramePlayer: HTMLIFrameElement
     angry_miku: boolean = false
 
-    constructor() {}
+    constructor() { }
 
     setMikuAngry(b: boolean) {
         this.angry_miku = b
-        if (b)
-            this.anime1Name = this.animeName
-        else
-            this.anime1Name = ""
+        this.animeName = this.searchQuery
     }
 
-    setIFramePlayerSrc(animeName: string = "akira", episodeNumber: number = 1) {
-        utils.getAnimeName(animeName).then(
+    setSearchQuery(searchQuery: string = "akira") {
+        utils.getSearchQuery(searchQuery).then(
             (result: any) => {
-                this.animeName = result
+                this.searchQuery = result
             }
         ).catch((err: any) => {
             console.error(err)
-            this.animeName = "cannot_find"
+            this.searchQuery = "cannot_find"
         })
+    }
 
-        utils.getAnimeURL(animeName, episodeNumber).then(
+    setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
+        utils.getAnimeURL(searchQuery, episodeNumber).then(
             (result: any) => {
                 this.iFramePlayer.src = result
                 if (this.iFramePlayer.src === c.angry_miku_url)
@@ -51,8 +51,8 @@ export class AppComponent {
         })
     }
 
-    setEpisodeCount(animeName: string = "akira") {
-        utils.getAnimeEpisodeCount(animeName).then(
+    setEpisodeCount(searchQuery: string = "akira") {
+        utils.getEpisodeCount(searchQuery).then(
             (result: any) => {
                 this.episodeCount = +result
                 this.episodeNumbers = [].constructor(this.episodeCount)
@@ -64,15 +64,17 @@ export class AppComponent {
     onSubmitButtonClick() {
         this.currentEpisode = 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
-        this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
-        this.setEpisodeCount(this.animeName)
+        this.setSearchQuery(this.searchQuery)
+        this.setIFramePlayerSrc(this.searchQuery, +this.currentEpisode)
+        this.setEpisodeCount(this.searchQuery)
     }
 
     selectEpisode(index: number) {
         this.currentEpisode = index + 1;
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
-        this.setIFramePlayerSrc(this.animeName, +this.currentEpisode)
-        this.setEpisodeCount(this.animeName)
+        this.setSearchQuery(this.searchQuery)
+        this.setIFramePlayerSrc(this.searchQuery, +this.currentEpisode)
+        this.setEpisodeCount(this.searchQuery)
     }
 
     /*
@@ -80,7 +82,7 @@ export class AppComponent {
         if (this.currentEpisode + 1 <= this.episodeCount)
             this.currentEpisode++
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
-        this.setIFramePlayerSrc(this.animeName, this.currentEpisode)
+        this.setIFramePlayerSrc(this.searchQuery, this.currentEpisode)
     }
     */
 }
