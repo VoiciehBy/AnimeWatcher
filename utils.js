@@ -18,7 +18,7 @@ function lookForAnime(searchQuery) {
     })
 }
 
-function lookForSearchQuery(searchQuery) {
+function lookForAnimeName(searchQuery) {
     return new Promise((resolve, reject) => {
         lookForAnime(searchQuery).then(result => {
             resolve(result.title)
@@ -56,7 +56,7 @@ function lookForEpisodeURL(searchQuery, episodeNumber, timeout = 100) {
                 if (episode == constants.nullEpisode)
                     resolve(constants.angry_miku_url)
                 else {
-                    let root = "goone.pro"
+                    let root = "goone.pro" // "embtaku.pro"
                     let url = "https://" + root + "/streaming.php?id="
                     url += episode.id
                     resolve(url)
@@ -86,7 +86,7 @@ function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
 }
 
 module.exports = {
-    getSearchQuery: (searchQuery = "naruto") => lookForSearchQuery(searchQuery),
+    getSearchQuery: (searchQuery = "naruto") => lookForAnimeName(searchQuery),
     getAnimeURL: (searchQuery = "naruto", episodeNumber = 1) => lookForEpisodeURL(searchQuery, episodeNumber),
     getEpisodeCount: (searchQuery = "naruto") => lookForEpisodeCount(searchQuery)
 }
