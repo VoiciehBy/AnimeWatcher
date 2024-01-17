@@ -11,9 +11,6 @@ const createWindow = () => {
     const window = new BrowserWindow({
         width: 1280,
         height: 720,
-        resizable: false,
-        maximizable: false,
-        fullscreenable: false,
         icon: `${__dirname}/frontend/dist/assets/img/Jackiore_Miku.png`,
         webPreferences: {
             devTools: config.devMode,
