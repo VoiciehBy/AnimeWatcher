@@ -44,17 +44,17 @@ export class AppComponent {
                 if (this.iFramePlayer.src === c.angry_miku_url) {
                     this.setMikuAngry(true)
                     this.iFramePlayer.srcdoc = `
-                    <h1>
+                    <h1 style="color:red">
                         <img src=${c.angry_miku_url} alt="Angry Miku">
                         <span class="text-capitalize">
                             ${this.animeName}
                         </span>
                         was not found...
                     </h1>`
-                    this.iFramePlayer.src = ""
                 }
                 else {
                     this.setMikuAngry(false)
+                    this.iFramePlayer.removeAttribute("srcdoc")
                     this.iFramePlayer.src = result
                 }
             }
@@ -89,12 +89,10 @@ export class AppComponent {
         this.setEpisodeCount(this.searchQuery)
     }
 
-    /*
     selectNextEpisode(): void {
         if (this.currentEpisode + 1 <= this.episodeCount)
             this.currentEpisode++
         this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.searchQuery, this.currentEpisode)
     }
-    */
 }
