@@ -2,7 +2,7 @@
     padding-top: 11px;
     padding-left: 66px;
     padding-right: 0px;
-    padding-bottom: 11px;
+    padding-bottom: 12%;
 }
 
 #iframePlayer {
@@ -34,6 +34,10 @@
     height: 350px;
 }
 
+#episodeContainer {
+    height:max-content;
+}
+
 #searchQueryButton {
     width: 100%;
     max-width: 150px;
@@ -51,4 +55,8 @@
 
 #episodeSelectButton:hover {
     background: yellow;
+}
+
+footer {
+    background-color: aqua;
 }

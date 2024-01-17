@@ -41,10 +41,22 @@ export class AppComponent {
         utils.getAnimeURL(searchQuery, episodeNumber).then(
             (result: any) => {
                 this.iFramePlayer.src = result
-                if (this.iFramePlayer.src === c.angry_miku_url)
+                if (this.iFramePlayer.src === c.angry_miku_url) {
                     this.setMikuAngry(true)
-                else
+                    this.iFramePlayer.srcdoc = `
+                    <h1>
+                        <img src=${c.angry_miku_url} alt="Angry Miku">
+                        <span class="text-capitalize">
+                            ${this.animeName}
+                        </span>
+                        was not found...
+                    </h1>`
+                    this.iFramePlayer.src = ""
+                }
+                else {
                     this.setMikuAngry(false)
+                    this.iFramePlayer.src = result
+                }
             }
         ).catch((err: any) => {
             console.error(err)
