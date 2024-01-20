@@ -25,12 +25,30 @@ const createWindow = () => {
             blocker.enableBlockingInSession(window.webContents.session);
         })
     }
+
     window.loadURL(`${__dirname}/frontend/dist/index.html`)
+}
+
+const clearCache = () => {
+    let windows = BrowserWindow.getAllWindows();
+
+    for (window in windows) {
+        let session = window.webContents.session
+
+        session.clearCache(() => {
+            console.log("Cache cleared...".cyan)
+        })
+        session.clearStorageData(() => {
+            console.log("HTTP cache cleared...".cyan)
+        })
+    }
 }
 
 app.whenReady().then(() => {
     console.log("Ready...".cyan)
 
+    if (config.clearCacheEnabled)
+        clearCache()
     createWindow()
 
     app.on("active", () => {

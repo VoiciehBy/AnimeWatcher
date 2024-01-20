@@ -1,4 +1,5 @@
 module.exports = {
     devMode: false,
-    adBlockerEnabled: true
+    adBlockerEnabled: true,
+    clearCacheEnabled: true
 }
