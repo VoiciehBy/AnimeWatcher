@@ -1,52 +1,18 @@
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand">AnimeWatcher</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar"
-      aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      Menu
-    </button>
-    <div id="topNavbar" class="collapse navbar-collapse">
-      <ul class="navbar-nav gap-2 ms-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#"></a>
-        </li>
-        <li class="nav-item active">
-          <button class="badge rounded-pill text-bg-light text-center">
-            <a class="nav-link" href="https://github.com/VoiciehBy/AnimeWatcher" target="_blank">
-              <span><i class="bi bi-github object-fit-fill fs-6"></i></span>
-              AnimeWatcher
-            </a>
-          </button>
-        </li>
-        <li class="nav-item active">
-          <button class="badge rounded-pill text-bg-light text-center">
-            <a class="nav-link" href="https://www.crunchyroll.com/videos/anime" target="_blank">
-              <span><img alt="CRUNCHYROLL_LOGO" src="assets/img/Crunchyroll_Logo.svg" width="16" height="16">
-              </span>
-              Crunchyroll
-            </a>
-          </button>
-        </li>
-        <li class="nav-item active">
-          <button class="badge rounded-pill text-bg-light text-center">
-            <a class="nav-link" href="https://kissanime.org.ru/AnimeListOnline" target="_blank">
-              <span><img alt="HAYATE_MIKU" src="assets/img/Hayate_Miku.png" width="16" height="16">
-              </span>
-              KissAnime
-            </a>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<app-navbar></app-navbar>
 
 <div class="container-fluid text-bg-secondary d-flex flex-column" role="main" (window:keyup.e)="selectNextEpisode()">
   <div id="mainRow" class="row">
     <div class="col-9 badge bg-dark embed-responsive embed-responsive-16by9">
       <div>
-        <iframe id="iframePlayer" class="embed-responsive-item min-vh-100" allowfullscreen></iframe>
+        <iframe class="embed-responsive-item min-vh-100 player" allowfullscreen [src]="src|p: 'resourceUrl'"></iframe>
+        <div *ngIf="angry_miku === true" class="errorText">
+          <h1>
+            <span class="text-capitalize">
+              {{animeName}}
+            </span>
+            was not found...
+          </h1>
+        </div>
       </div>
       <!--<div (click)="selectNextEpisode()">
           <button id="" class="btn btn-light badge fs-6 text-uppercase" type="button">
@@ -79,7 +45,7 @@
                     aria-label="Toggle Anime Selection">
                     <span class="navbar-toggler-icon"></span>
                   </button>
-                  <button id="searchQueryButton" class="btn badge text-bg-secondary" type="button">
+                  <button class="btn badge text-bg-secondary searchQueryButton" type="button">
                     <span class="text-capitalize text-wrap"> {{animeName}} </span>
                   </button>
                   <button id="currentEpisodeButton" class="btn badge text-bg-dark" type="button">
@@ -94,16 +60,12 @@
               </div>
             </nav>
             <div id="selectAnimeNavbar" class="collapse">
-              <div id="episodeContainer" class="container-fluid d-flex flex-column">
-                <div class="row">
-                  <div class="d-grid gap-2 mx-auto">
-                    <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
-                      <button id="episodeSelectButton" class="btn btn-light badge fs-6 text-uppercase" type="button">
-                        Episode {{i + 1}}
-                      </button>
-                    </div>
-                    <div>
-                    </div>
+              <div class="d-flex flex-column episodeContainer">
+                <div class="d-grid gap-2">
+                  <div *ngFor="let item of episodeNumbers;let i = index" (click)="selectEpisode(i)">
+                    <button class="btn btn-light badge fs-6 text-uppercase episodeSelectButton" type="button">
+                      Episode {{i + 1}}
+                    </button>
                   </div>
                 </div>
               </div>

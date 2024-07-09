@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+#mainRow {
+    padding-top: 11px;
+    padding-left: 66px;
+    padding-right: 0px;
+    padding-bottom: 1%;
+}
+
+.player {
+    width: 100%;
+    padding-top: 20px;
+}
+
+#searchAnimeForm {
+    width: 100%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+}
+
+#searchAnimeFieldAddon {
+    width: 95%;
+}
+
+#searchAnimeField {
+    width: 95%;
+}
+
+#selectAnimeNavbar {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: fit-content;
+    margin-bottom: 1%;
+}
+
+.episodeContainer {
+    height:50vh;
+}
+
+.searchQueryButton {
+    width: 100%;
+    max-width: 150px;
+}
+
+#currentEpisodeButton {
+    width: 100%;
+    max-width: 100px;
+}
+
+.episodeSelectButton {
+    width: 100%;
+    color: black;
+}
+
+#episodeSelectButton:hover {
+    background: yellow;
+}
+
+.errorText{
+    color: red;
+}

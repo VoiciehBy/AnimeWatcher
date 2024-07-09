@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as utils from "../../../utils";
 import * as c from "../../../constants";
+
+import { PlayerService } from 'src/services/player.service';
 
 @Component({
     selector: 'app-root',
@@ -8,7 +10,7 @@ import * as c from "../../../constants";
     styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
     title: string = "frontend"
     providerNumber: number = 0
     searchQuery: string = "akira"
@@ -16,10 +18,16 @@ export class AppComponent {
     currentEpisode: number = 1
     episodeCount: number = 1
     episodeNumbers = [].constructor(this.episodeCount)
-    iFramePlayer: HTMLIFrameElement
+
+    src: string
     angry_miku: boolean = false
 
-    constructor() { }
+    constructor(private player: PlayerService) { }
+
+    ngOnInit(): void {
+        console.log(`${this.title} has been inited...`)
+        this.player.srcState.subscribe(src => this.src = src)
+    }
 
     setMikuAngry(b: boolean) {
         this.angry_miku = b
@@ -28,9 +36,7 @@ export class AppComponent {
 
     setSearchQuery(searchQuery: string = "akira") {
         utils.getSearchQuery(searchQuery).then(
-            (result: any) => {
-                this.searchQuery = result
-            }
+            (result: any) => this.searchQuery = result
         ).catch((err: any) => {
             console.error(err)
             this.searchQuery = "cannot_find"
@@ -40,22 +46,12 @@ export class AppComponent {
     setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
         utils.getAnimeURL(searchQuery, episodeNumber).then(
             (result: any) => {
-                this.iFramePlayer.src = result
-                if (this.iFramePlayer.src === c.angry_miku_url) {
+                this.player.setSrc(result)
+                if (this.src === c.angry_miku_url)
                     this.setMikuAngry(true)
-                    this.iFramePlayer.srcdoc = `
-                    <h1 style="color:red">
-                        <img src=${c.angry_miku_url} alt="Angry Miku">
-                        <span class="text-capitalize">
-                            ${this.animeName}
-                        </span>
-                        was not found...
-                    </h1>`
-                }
                 else {
                     this.setMikuAngry(false)
-                    this.iFramePlayer.removeAttribute("srcdoc")
-                    this.iFramePlayer.src = result
+                    this.player.setSrc(result)
                 }
             }
         ).catch((err: any) => {
@@ -75,7 +71,6 @@ export class AppComponent {
 
     onSubmitButtonClick() {
         this.currentEpisode = 1;
-        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setSearchQuery(this.searchQuery)
         this.setIFramePlayerSrc(this.searchQuery, +this.currentEpisode)
         this.setEpisodeCount(this.searchQuery)
@@ -83,7 +78,6 @@ export class AppComponent {
 
     selectEpisode(index: number) {
         this.currentEpisode = index + 1;
-        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setSearchQuery(this.searchQuery)
         this.setIFramePlayerSrc(this.searchQuery, +this.currentEpisode)
         this.setEpisodeCount(this.searchQuery)
@@ -92,7 +86,6 @@ export class AppComponent {
     selectNextEpisode(): void {
         if (this.currentEpisode + 1 <= this.episodeCount)
             this.currentEpisode++
-        this.iFramePlayer = document.getElementById("iframePlayer") as HTMLIFrameElement
         this.setIFramePlayerSrc(this.searchQuery, this.currentEpisode)
     }
 }

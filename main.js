@@ -11,6 +11,8 @@ const createWindow = () => {
     const window = new BrowserWindow({
         width: 1280,
         height: 720,
+        minWidth: 1280,
+        minHeight: 720,
         icon: `${__dirname}/frontend/dist/assets/img/Jackiore_Miku.png`,
         webPreferences: {
             devTools: config.devMode,
@@ -61,7 +63,7 @@ app.whenReady().then(() => {
 })
 
 app.on("browser-window-focus", () => {
-    console.log("Got Focused...".cyan)
+    console.log("Got Focused...".cyan);
 })
 
 app.on("window-all-closed", () => {
