@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
 import * as utils from "../../../../utils";
-import * as c from "../../../../constants";
+import c from "../../../../constants.json";
 
 @Component({
   selector: 'app-select-anime',

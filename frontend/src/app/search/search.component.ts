@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
 import * as utils from "../../../../utils";
-import * as c from "../../../../constants";
+import c from "../../../../constants.json";
 
 @Component({
   selector: 'app-search',
@@ -45,11 +45,8 @@ export class SearchComponent {
 
   setEpisodeCount(searchQuery: string = "akira") {
     utils.getEpisodeCount(searchQuery).then(
-      (result: any) => {
-        this.player.setTotalEpisodeCount(+result);
-      }).catch((err: any) => {
-        console.error(err)
-      })
+      (result: any) => this.player.setTotalEpisodeCount(+result))
+      .catch((err: any) => console.error(err));
   }
 
   onSearchButtonClick() {
