@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
-import * as utils from "../../../../utils";
-import c from "../../../../constants.json";
+import {getAnimeURL} from "../../../../utils";
+import c from "../../constants.json";
 
 @Component({
   selector: 'app-select-anime',
@@ -29,7 +29,7 @@ export class AnimeEpisodeSelectorComponent {
   }
 
   setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
-    utils.getAnimeURL(searchQuery, episodeNumber).then(
+    getAnimeURL(searchQuery, episodeNumber).then(
       (episodeURL: any) => {
         this.player.setShowName(searchQuery);
         this.player.setSrc(episodeURL);

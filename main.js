@@ -1,11 +1,8 @@
-const config = require("./config")
-
-const colors = require("colors")
-
-const fetch = require("cross-fetch")
+const config = require("./config");
+const colors = require("colors");
+const fetch = require("cross-fetch");
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
-
-const { app, BrowserWindow } = require("electron")
+const { app, BrowserWindow } = require("electron");
 
 const createWindow = () => {
     const window = new BrowserWindow({

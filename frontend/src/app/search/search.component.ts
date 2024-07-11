@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
-import * as utils from "../../../../utils";
-import c from "../../../../constants.json";
+import {
+  getSearchQuery,
+  getAnimeURL,
+  getEpisodeCount
+} from "../../../../utils";
+import c from "../../constants.json";
 
 @Component({
   selector: 'app-search',
@@ -22,7 +26,7 @@ export class SearchComponent {
   }
 
   setSearchQuery(searchQuery: string) {
-    utils.getSearchQuery(searchQuery).then(
+    getSearchQuery(searchQuery).then(
       (result: any) => {
         this.searchQuery = result;
         this.player.setSearchQuerySubject(this.searchQuery);
@@ -34,7 +38,7 @@ export class SearchComponent {
   }
 
   setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
-    utils.getAnimeURL(searchQuery, episodeNumber).then(
+    getAnimeURL(searchQuery, episodeNumber).then(
       (episodeURL: any) => {
         this.player.setShowName(searchQuery);
         this.player.setSrc(episodeURL);
@@ -44,7 +48,7 @@ export class SearchComponent {
   }
 
   setEpisodeCount(searchQuery: string = "akira") {
-    utils.getEpisodeCount(searchQuery).then(
+    getEpisodeCount(searchQuery).then(
       (result: any) => this.player.setTotalEpisodeCount(+result))
       .catch((err: any) => console.error(err));
   }

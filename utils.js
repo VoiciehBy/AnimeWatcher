@@ -16,7 +16,7 @@ function lookForAnime(searchQuery) {
     return new Promise((resolve, reject) => {
         scraper.search(searchQuery).then(results => {
             if (results.length !== 0)
-                resolve(results[0])
+                resolve(results[0]);
             else
                 reject(`Cannot find anime: ${searchQuery}`)
         }).catch((err) => console.error(err))
