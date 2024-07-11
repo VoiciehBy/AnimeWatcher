@@ -1,0 +1,9 @@
+<iframe class="embed-responsive-item min-vh-100 player" allowfullscreen [src]="src|p: 'resourceUrl'"></iframe>
+<div *ngIf="angry_miku === true" class="errorText">
+    <h1>
+        <span class="text-capitalize">
+            {{animeName}}
+        </span>
+        was not found...
+    </h1>
+</div>

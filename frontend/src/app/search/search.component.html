@@ -1,0 +1,10 @@
+<form>
+    <div id="searchAnimeForm" class="input-group">
+        <span id="searchAnimeFieldAddon" class="input-group-text">
+            <input type="image" src="assets/img/search.svg" value="Search" (click)="onSearchButtonClick()">
+            <input id="searchAnimeField" type="search" placeholder="Search Anime" aria-label="Search Anime Field Addon"
+                aria-describedby="searchAnimeFieldAddon" [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
+                maxlength="23">
+        </span>
+    </div>
+</form>

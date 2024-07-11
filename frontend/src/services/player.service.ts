@@ -4,16 +4,51 @@ import { BehaviorSubject, Observable } from "rxjs";
 @Injectable()
 export class PlayerService {
 
-    public srcSubject = new BehaviorSubject<string>("");
+    public showNameSubject: BehaviorSubject<string> = new BehaviorSubject<string>("akira");
+    public showNameState: Observable<string> = this.showNameSubject.asObservable();
+
+    public currEpisodeSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+    public currEpisodeState: Observable<number> = this.currEpisodeSubject.asObservable();
+
+    public totalEpisodeSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+    public totalEpisodeState: Observable<number> = this.totalEpisodeSubject.asObservable();
+
+    public srcSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
     public srcState: Observable<string> = this.srcSubject.asObservable();
 
-    setSrcSubject(x: string) {
-        this.srcSubject.next(x)
-    }
+    public searchQuerySubject: BehaviorSubject<string> = new BehaviorSubject<string>("akira");
+    public searchQueryState: Observable<string> = this.searchQuerySubject.asObservable();
+
+    public mikuAngrySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public mikuAngryState: Observable<boolean> = this.mikuAngrySubject.asObservable();
 
     constructor() { }
 
+    setShowName(x: string) {
+        this.showNameSubject.next(x);
+    }
+
+    setCurrentEpisode(x: number) {
+        this.currEpisodeSubject.next(x);
+    }
+
+    setTotalEpisodeCount(x: number) {
+        this.totalEpisodeSubject.next(x);
+    }
+
+    setSrcSubject(x: string) {
+        this.srcSubject.next(x);
+    }
+
     setSrc(src: string): void {
         this.setSrcSubject(src)
+    }
+
+    setSearchQuerySubject(x : string) : void {
+        this.searchQuerySubject.next(x);
+    }
+
+    setMikuAngry(b : boolean): void {
+        this.mikuAngrySubject.next(b);
     }
 }
