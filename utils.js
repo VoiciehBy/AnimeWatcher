@@ -1,11 +1,11 @@
-const constants = require("./constants")
-const GogoAnime = require("./GogoAnime")
+const constants = require("./constants");
+const ctkAnimeScraper = require("ctk-anime-scraper");
 
-const Gogoanime = new GogoAnime()
+const scraper = new ctkAnimeScraper.Gogoanime({ base_url: "https://anitaku.to/" });
 
 function lookForAnime(searchQuery) {
     return new Promise((resolve, reject) => {
-        Gogoanime.search(searchQuery).then(results => {
+        scraper.search(searchQuery).then(results => {
             if (results.length !== 0)
                 resolve(results[0])
             else
@@ -34,8 +34,8 @@ function lookForAnimeName(searchQuery) {
 function lookForEpisode(searchQuery, episodeNumber) {
     return new Promise((resolve, reject) => {
         lookForAnime(searchQuery).then(result => {
-            Gogoanime.fetchAnime(result.link).then(anime => {
-                Gogoanime.getEpisodes(anime.slug, episodeNumber).then(episode => {
+            scraper.fetchAnime(result.link).then(anime => {
+                scraper.getEpisodes(anime.slug, episodeNumber).then(episode => {
                     if (anime.slug === undefined)
                         reject(`Anime (${searchQuery}) slug does not exist...`)
                     else
@@ -72,7 +72,7 @@ function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
     return new Promise((resolve) => {
         setTimeout(() => {
             lookForAnime(searchQuery).then(result => {
-                Gogoanime.fetchAnime(result.link).then(anime => {
+                scraper.fetchAnime(result.link).then(anime => {
                     resolve(anime.episodeCount)
                 }).catch((err) => {
                     console.error(err)
