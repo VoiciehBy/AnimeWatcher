@@ -9,6 +9,9 @@
     "build": "npm run electron-build --prefix ./frontend",
     "pack": "npm run build & electron-builder --dir",
     "dist": "npm run build & electron-builder",
+    "dist-win": "npm run build & electron-builder -w",
+    "dist-linux": "npm run build & electron-builder -l",
+    "dist-mac": "npm run build & electron-builder -m",
     "ng-serve": "npm run ng serve --prefix ./frontend"
   },
   "private": true,
@@ -39,6 +42,16 @@
         "deb"
       ],
       "icon": "frontend/dist/assets/img/Jackiore_Miku.png"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "Applications"
+        }
+      ]
     }
   },
   "dependencies": {

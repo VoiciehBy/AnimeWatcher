@@ -9,6 +9,7 @@ import { PlayerService } from 'src/services/player.service';
 export class PlayerComponent {
   src: string;
   animeName: string;
+  searchQuery: string;
   currentEpisode: number;
   angry_miku: boolean = false;
 
@@ -17,6 +18,7 @@ export class PlayerComponent {
   ngOnInit(): void {
     console.log(`PlayerComponent has been inited...`);
     this.player.showNameState.subscribe(s => this.animeName = s);
+    this.player.searchQueryState.subscribe(s => this.searchQuery = s);
     this.player.currEpisodeState.subscribe(x => this.currentEpisode = x);
     this.player.srcState.subscribe(s => this.src = s);
     this.player.mikuAngryState.subscribe(b => this.angry_miku = b);

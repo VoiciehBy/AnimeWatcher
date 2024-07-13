@@ -4,7 +4,12 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <button class="btn badge text-bg-secondary searchQueryButton" type="button">
-    <span class="text-capitalize text-wrap"> {{showName}} </span>
+    <div *ngIf="miku_angry == true;else elseBlock">
+      <span class="text-capitalize text-wrap"> {{searchQuery}} </span>
+    </div>
+    <ng-template #elseBlock>
+      <span class="text-capitalize text-wrap"> {{showName}} </span>
+    </ng-template>
   </button>
   <button id="currentEpisodeButton" class="btn badge text-bg-dark" type="button">
     <span> Episode:{{current}}/{{total}} </span>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
-import {getAnimeURL} from "../../../../utils";
+import { getAnimeURL } from "../../../../utils";
 import c from "../../constants.json";
 
 @Component({
@@ -34,8 +34,7 @@ export class AnimeEpisodeSelectorComponent {
         this.player.setShowName(searchQuery);
         this.player.setSrc(episodeURL);
         this.player.setMikuAngry(episodeURL === c.angry_miku_url);
-      }
-    ).catch((err: any) => console.error(err))
+      }).catch((err: any) => console.error(err))
   }
 
   selectEpisode(index: number) {

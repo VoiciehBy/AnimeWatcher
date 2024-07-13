@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
 import {
-  getSearchQuery,
+  getAnimeName,
   getAnimeURL,
   getEpisodeCount
 } from "../../../../utils";
@@ -21,26 +21,23 @@ export class SearchComponent {
   constructor(private player: PlayerService) { }
 
   ngOnInit(): void {
+    this.player.searchQueryState.subscribe(s => this.searchQuery = s);
     this.player.totalEpisodeState.subscribe(x => this.episodeCount = x);
     this.player.srcState.subscribe(src => this.src = src);
   }
 
-  setSearchQuery(searchQuery: string) {
-    getSearchQuery(searchQuery).then(
-      (result: any) => {
-        this.searchQuery = result;
-        this.player.setSearchQuerySubject(this.searchQuery);
-      }
+  setAnimeName(searchQuery: string) {
+    getAnimeName(searchQuery).then(
+      (result: any) => this.player.setShowName(result)
     ).catch((err: any) => {
       console.error(err);
-      this.searchQuery = "cannot_find";
+      this.player.setShowName("cannot_find");
     })
   }
 
   setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
     getAnimeURL(searchQuery, episodeNumber).then(
       (episodeURL: any) => {
-        this.player.setShowName(searchQuery);
         this.player.setSrc(episodeURL);
         this.player.setMikuAngry(episodeURL === c.angry_miku_url);
       }
@@ -55,8 +52,10 @@ export class SearchComponent {
 
   onSearchButtonClick() {
     this.player.setCurrentEpisode(1);
-    this.setSearchQuery(this.searchQuery);
+    this.player.setSearchQuerySubject(this.searchQuery);
+    this.setAnimeName(this.searchQuery);
     this.setIFramePlayerSrc(this.searchQuery, 1);
     this.setEpisodeCount(this.searchQuery);
+    document.documentElement.style.setProperty(`--n`, String(this.episodeCount));
   }
 }

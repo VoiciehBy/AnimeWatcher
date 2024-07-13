@@ -47,7 +47,7 @@ function lookForEpisode(searchQuery, episodeNumber) {
             })
         }).catch((err) => {
             console.error(err)
-            resolve(constants.nullEpisode)
+            resolve(nullEpisode)
         })
     })
 }
@@ -56,6 +56,7 @@ function lookForEpisodeURL(searchQuery, episodeNumber, timeout = 100) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             lookForEpisode(searchQuery, episodeNumber).then(episode => {
+                console.log(episode == nullEpisode);
                 if (episode == nullEpisode)
                     resolve(angry_miku_url);
                 else {
@@ -85,7 +86,7 @@ function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
 }
 
 module.exports = {
-    getSearchQuery: (searchQuery = "naruto") => lookForAnimeName(searchQuery),
+    getAnimeName: (searchQuery = "naruto") => lookForAnimeName(searchQuery),
     getAnimeURL: (searchQuery = "naruto", episodeNumber = 1) => lookForEpisodeURL(searchQuery, episodeNumber),
     getEpisodeCount: (searchQuery = "naruto") => lookForEpisodeCount(searchQuery)
 }
