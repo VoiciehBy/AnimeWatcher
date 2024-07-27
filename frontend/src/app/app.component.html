@@ -2,7 +2,7 @@
 
 <div class="container-fluid text-bg-secondary d-flex flex-column" role="main">
   <div id="mainRow" class="row">
-    <div class="col-9 badge bg-dark embed-responsive embed-responsive-16by9">
+    <div class="col-9 badge embed-responsive embed-responsive-16by9">
       <app-player></app-player>
     </div>
     <div class="col-3 badge text-center">
@@ -10,7 +10,7 @@
         <div class="row">
           <app-search></app-search>
         </div>
-        <div class="container-fluid text-center text-bg-success">
+        <div *ngIf="miku_angry == false" class="container-fluid text-center text-bg-success bg-gradient rounded">
           <div class="row">
             <nav class="navbar navbar">
               <div class="container-fluid">

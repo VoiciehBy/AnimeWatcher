@@ -1,0 +1,14 @@
+.html {
+    min-height: max-content;
+}
+
+#mainRow {
+    padding-top: 1vh;
+    padding-left: 1vw;
+    padding-right: 0vh;
+    padding-bottom: 1vh;
+    max-height: 100vh;
+    background-image: url(../assets/img/bg.jpg);
+    background-position: center;
+    background-size: cover;
+}

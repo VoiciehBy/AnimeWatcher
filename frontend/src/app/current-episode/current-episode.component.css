@@ -1,0 +1,9 @@
+.searchQueryButton {
+    width: 100%;
+    max-width: 150px;
+}
+
+#currentEpisodeButton {
+    width: 100%;
+    max-width: 100px;
+}

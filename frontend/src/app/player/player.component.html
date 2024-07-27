@@ -1,11 +1,11 @@
-<div *ngIf="angry_miku === true;else elseBlock" class="errorText">
-    <img [src]="src|p: 'resourceUrl'" alt="Angry Miku">
-    <h1>
+<div *ngIf="angry_miku === true;else elseBlock" class="row errorText">
+    <iframe class="embed-responsive-item min-vh-100 player" allowfullscreen [src]="src|p: 'resourceUrl'"></iframe>
+    <!--<h1>
         <span class="text-capitalize">
             {{searchQuery}}
         </span>
         was not found...
-    </h1>
+    </h1>-->
 </div>
 <ng-template #elseBlock>
     <iframe class="embed-responsive-item min-vh-100 player" allowfullscreen [src]="src|p: 'resourceUrl'"></iframe>

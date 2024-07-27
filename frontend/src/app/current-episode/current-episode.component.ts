@@ -7,11 +7,11 @@ import { PlayerService } from 'src/services/player.service';
   styleUrls: ['./current-episode.component.css']
 })
 export class CurrentEpisodeComponent {
-  showName: string;
-  searchQuery: string;
-  current: number;
-  total: number;
-  miku_angry: boolean;
+  showName: string = "";
+  searchQuery: string = "";
+  current: number = 1;
+  total: number = 1;
+
   constructor(private player: PlayerService) { }
 
   ngOnInit(): void {
@@ -20,6 +20,5 @@ export class CurrentEpisodeComponent {
     this.player.searchQueryState.subscribe(s => this.searchQuery = s);
     this.player.currEpisodeState.subscribe(x => this.current = x);
     this.player.totalEpisodeState.subscribe(x => this.total = x);
-    this.player.mikuAngryState.subscribe(b => this.miku_angry = b);
   }
 }

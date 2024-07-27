@@ -1,0 +1,16 @@
+.episodeContainer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-height: 60vh;
+}
+
+.episodeSelectButton {
+    width: 100%;
+    color: black;
+}
+
+#episodeSelectButton:hover {
+    background: yellow;
+}

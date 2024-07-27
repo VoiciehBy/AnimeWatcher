@@ -8,5 +8,5 @@ const nullEpisode = {
 
 module.exports = {
     angry_miku_url: angry_miku_url,
-    nullEpisode : nullEpisode
+    nullEpisode: nullEpisode
 }

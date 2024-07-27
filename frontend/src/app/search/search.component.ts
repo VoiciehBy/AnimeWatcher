@@ -14,16 +14,18 @@ import c from "../../constants.json";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-  episodeCount: number = 1;
-  searchQuery: string;
+  searchQuery: string = "";
   src: string = "";
+
+  episodeCount: number = 1;
 
   constructor(private player: PlayerService) { }
 
   ngOnInit(): void {
+    console.log(`SearchComponent has been inited...`);
     this.player.searchQueryState.subscribe(s => this.searchQuery = s);
-    this.player.totalEpisodeState.subscribe(x => this.episodeCount = x);
     this.player.srcState.subscribe(src => this.src = src);
+    this.player.totalEpisodeState.subscribe(x => this.episodeCount = x);
   }
 
   setAnimeName(searchQuery: string) {
@@ -52,10 +54,9 @@ export class SearchComponent {
 
   onSearchButtonClick() {
     this.player.setCurrentEpisode(1);
-    this.player.setSearchQuerySubject(this.searchQuery);
+    this.player.setSearchQuery(this.searchQuery);
     this.setAnimeName(this.searchQuery);
     this.setIFramePlayerSrc(this.searchQuery, 1);
     this.setEpisodeCount(this.searchQuery);
-    document.documentElement.style.setProperty(`--n`, String(this.episodeCount));
   }
 }

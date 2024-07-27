@@ -36,19 +36,15 @@ export class PlayerService {
         this.totalEpisodeSubject.next(x);
     }
 
-    setSrcSubject(x: string) {
-        this.srcSubject.next(x);
-    }
-
     setSrc(src: string): void {
-        this.setSrcSubject(src)
+        this.srcSubject.next(src);
     }
 
-    setSearchQuerySubject(x : string) : void {
+    setSearchQuery(x: string): void {
         this.searchQuerySubject.next(x);
     }
 
-    setMikuAngry(b : boolean): void {
+    setMikuAngry(b: boolean): void {
         this.mikuAngrySubject.next(b);
     }
 }
