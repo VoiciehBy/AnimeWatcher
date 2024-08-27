@@ -60,7 +60,7 @@ function lookForEpisodeURL(searchQuery, episodeNumber, timeout = 100) {
                 if (episode == nullEpisode)
                     resolve(angry_miku_url);
                 else {
-                    let root = "goone.pro" // "embtaku.pro"
+                    let root = "embtaku.pro"
                     let url = "https://" + root + "/streaming.php?id="
                     url += episode.id;
                     resolve(url);

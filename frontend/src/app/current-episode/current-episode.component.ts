@@ -6,9 +6,9 @@ import { PlayerService } from 'src/services/player.service';
   templateUrl: './current-episode.component.html',
   styleUrls: ['./current-episode.component.css']
 })
+
 export class CurrentEpisodeComponent {
   showName: string = "";
-  searchQuery: string = "";
   current: number = 1;
   total: number = 1;
 
@@ -17,7 +17,6 @@ export class CurrentEpisodeComponent {
   ngOnInit(): void {
     console.log(`CurrentEpisodeComponent has been inited...`);
     this.player.showNameState.subscribe(s => this.showName = s);
-    this.player.searchQueryState.subscribe(s => this.searchQuery = s);
     this.player.currEpisodeState.subscribe(x => this.current = x);
     this.player.totalEpisodeState.subscribe(x => this.total = x);
   }

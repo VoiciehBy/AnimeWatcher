@@ -22,6 +22,9 @@ export class PlayerService {
     public mikuAngrySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public mikuAngryState: Observable<boolean> = this.mikuAngrySubject.asObservable();
 
+    public updateEpisodesSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    public needForEpisodesUpdate: Observable<boolean> = this.updateEpisodesSubject.asObservable();
+
     constructor() { }
 
     setShowName(x: string) {
@@ -46,5 +49,9 @@ export class PlayerService {
 
     setMikuAngry(b: boolean): void {
         this.mikuAngrySubject.next(b);
+    }
+
+    setEpisodesUpdateNeed(b: boolean): void {
+        this.updateEpisodesSubject.next(b);
     }
 }

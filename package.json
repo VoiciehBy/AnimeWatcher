@@ -123,6 +123,7 @@
     "semver-compare": "^1.0.0",
     "serialize-error": "^7.0.1",
     "sprintf-js": "^1.1.2",
+    "sqlite3": "^5.1.7",
     "string_decoder": "^1.1.1",
     "sumchecker": "^3.0.1",
     "to-readable-stream": "^1.0.0",

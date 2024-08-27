@@ -6,6 +6,7 @@ import { PlayerService } from 'src/services/player.service';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css']
 })
+
 export class PlayerComponent {
   animeName: string = "";
   searchQuery: string = "";

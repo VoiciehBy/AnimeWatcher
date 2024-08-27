@@ -1,4 +1,5 @@
 const config = require("./config");
+const db = require("./db");
 const colors = require("colors");
 const fetch = require("cross-fetch");
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
@@ -57,6 +58,11 @@ app.whenReady().then(() => {
             createWindow()
         }
     })
+
+    db.clear()
+    db.createTables();
+    db.addAnime("Akira");
+    db.addAnimeEp(1, 1);
 })
 
 app.on("browser-window-focus", () => {
