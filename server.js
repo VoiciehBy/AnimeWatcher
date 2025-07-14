@@ -18,7 +18,11 @@ server.on("request", (req, res) => {
     const request_url = new URL(req.url, `http:${req.headers.host}`);
     const pathname = request_url.pathname;
     const params = new URLSearchParams(request_url.search);
+    const nullJSON = JSON.stringify({});
     res.setHeader("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     switch (req.method) {
         case "GET":
@@ -28,11 +32,12 @@ server.on("request", (req, res) => {
                 if (params.has("name")) {
                     let name = params.get("name");
                     db.getAnime(name).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            respond(res, `${name} was not found...`, 404, JSON.stringify(result), " ");
+                        if (JSON.stringify(result) === nullJSON)
+                            respond(res, `${name} not found`, 404, r, " ");
                         else
-                            respond(res, `${name} found...`, 200, JSON.stringify(result), " ");
-                    }).catch((err) => respond(res, `Getting ${name} failed...`, 500, `{"error":"${err}"}`, err))
+                            respond(res, `${name} found`, 200, r, " ");
+                    }).catch((err) =>
+                        respond(res, `Getting ${name} failed`, 500, `{"error":"${err}"}`, err));
                 }
             }
             else if (pathname === "/episode") {
@@ -40,37 +45,42 @@ server.on("request", (req, res) => {
                     let anime_name = params.get("anime_name");
                     let no = params.get("no");
                     db.getAnimeEp(anime_name, no).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            respond(res, `E#${no} of ${anime_name} was not found`, 404, JSON.stringify(result), " ");
+                        let r = JSON.stringify(result);
+                        if (r === nullJSON)
+                            respond(res, `${anime_name}E#${no} not found`, 404, r, " ");
                         else
-                            respond(res, `E#${no} of ${anime_name} was found...`, 200, JSON.stringify(result), " ");
-                    }).catch((err) => respond(res, `Getting E#${no} of ${anime_name} failed...`, 500, `{"error":"${err}"}`, err))
+                            respond(res, `${anime_name}E#${no} found`, 200, r, " ");
+                    }).catch((err) =>
+                        respond(res, `Getting ${anime_name}E#${no} failed`, 500, `{"error":"${err}"}`, err));
                 }
             }
             else if (pathname === "/episodes") {
                 if (params.has("anime_name")) {
                     let anime_name = params.get("anime_name");
                     db.getAnimeEpisodes(anime_name).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            respond(res, `Episodes of ${anime_name} was not found`, 404, JSON.stringify(result), " ");
+                        if (JSON.stringify(result) === nullJSON)
+                            respond(res, `Eps of ${anime_name} not found`, 404, JSON.stringify(result), " ");
                         else
-                            respond(res, `Episodes of ${anime_name} was found...`, 200, JSON.stringify(result));
-                    }).catch((err) => respond(res, `Getting episodes of ${anime_name} failed...`, 500, `{"error":"${err}"}`, err))
+                            respond(res, `Eps of ${anime_name} found`, 200, JSON.stringify(result));
+                    }).catch((err) =>
+                        respond(res, `Getting eps of ${anime_name} failed`, 500, `{"error":"${err}"}`, err));
                 }
             }
             else
-                respond(res, "Bad params...", 422, `{"error": "Bad params..."}`, "Bad params");
+                respond(res, "Bad params", 422, `{"error": "Bad params"}`, "Bad params");
             break;
         case "PUT":
             if (pathname === "/new_anime") {
                 if (params.has("name")) {
                     let name = params.get("name");
                     db.getAnime(name).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            db.addAnime(name).then(() => respond(res, `${name} was added...`, 201, `{"res":"${name} was added..."}`)
-                            ).catch((err) => respond(res, `Adding ${name} failed...`, 500, `{"error":"${err}"}`, err));
+                        if (JSON.stringify(result) === nullJSON)
+                            db.addAnime(name).then(() =>
+                                respond(res, `${name} was added`, 201, `{"res":"${name} was added"}`)
+                            ).catch((err) =>
+                                respond(res, `Adding ${name} failed`, 500, `{"error":"${err}"}`, err));
                         else
-                            respond(res, `${name} already exists...`, 403, `{"res":"${name} already exists..."}`, " ");
+                            respond(res, `${name} already here`, 403, `{"res":"${name} already here"}`, " ");
                     })
                 }
             }
@@ -79,24 +89,26 @@ server.on("request", (req, res) => {
                     let anime_name = params.get("anime_name");
                     let no = params.get("no");
                     db.getAnime(anime_name).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            respond(res, `${anime_name} was not found...`, 404, JSON.stringify(result), " ");
+                        if (JSON.stringify(result) === nullJSON)
+                            respond(res, `${anime_name} not found`, 404, JSON.stringify(result), " ");
                         else {
                             let anime_id = result.id;
                             db.getAnimeEp(anime_name, no).then((result) => {
-                                if (JSON.stringify(result) === JSON.stringify({}))
+                                if (JSON.stringify(result) === nullJSON)
                                     db.addAnimeEp(anime_id, no).then(() => {
-                                        respond(res, `E#${no} of ${anime_name} was added...`, 201, `{"res":"E#${no} of ${anime_name} was added..."}`);
-                                    }).catch((err) => respond(res, `Adding E#${no} of ${anime_name} failed...`, 500, `{"error":"${err}"}`, err));
+                                        respond(res, `${anime_name}E#${no} added`, 201, `{"res":"${anime_name}E#${no} added"}`);
+                                    }).catch((err) =>
+                                        respond(res, `Adding ${anime_name}E#${no} failed`, 500, `{"error":"${err}"}`, err));
                                 else
-                                    respond(res, `E#${no} of ${anime_name} already exists...`, 403, `{"res":"E#${no} of ${anime_name} already exists..."}`, " ");
+                                    respond(res, `${anime_name}E#${no} already here`, 403, `{"res":"${anime_name}E#${no} already here"}`, " ");
                             })
                         }
-                    }).catch((err) => respond(res, `Getting ${anime_name} failed...`, 500, `{"error":"${err}"}`, err));
+                    }).catch((err) =>
+                        respond(res, `Getting ${anime_name} failed`, 500, `{"error":"${err}"}`, err));
                 }
             }
             else
-                respond(res, "Bad params...", 422, `{"error": "${err}"}`, "Bad params");
+                respond(res, "Bad params", 422, `{"error": "${err}"}`, "Bad params");
             break;
         case "PATCH":
             if (pathname === "/episode") {
@@ -104,27 +116,45 @@ server.on("request", (req, res) => {
                     let anime_name = params.get("anime_name");
                     let no = params.get("no");
                     db.getAnime(anime_name).then((result) => {
-                        if (JSON.stringify(result) === JSON.stringify({}))
-                            respond(res, `${anime_name} was not found...`, 404, JSON.stringify(result), " ");
+                        if (JSON.stringify(result) === nullJSON)
+                            respond(res, `${anime_name} not found`, 404, JSON.stringify(result), " ");
                         else {
                             let anime_id = result.id;
                             db.getAnimeEp(anime_name, no).then((result) => {
-                                if (JSON.stringify(result) != JSON.stringify({}))
-                                    db.markEpisodeAsWatched(anime_id, no).then(() =>
-                                        respond(res, `E#${no} of ${anime_name} was marked as watched...`, 201, `{"res":"E#${no} of ${anime_name} was marked as watched..."}`)
-                                    ).catch((err) => respond(res, `Marking E#${no} of ${anime_name} as watched failed...`, 500, `{"error":"${err}"}`, err));
+                                if (JSON.stringify(result) != nullJSON)
+                                    if (params.has("watched"))
+                                        db.markEpisodeAsNotWatched(anime_id, no).then(() =>
+                                            respond(res, `Marked ${anime_name}E#${no} as not watched`, 201, `{"res":"Marked ${anime_name}E#${no} as not watched"}`)
+                                        ).catch((err) => respond(res, `Marking ${anime_name}E#${no} as watched failed`, 500, `{"error":"${err}"}`, err));
+                                    else
+                                        db.markEpisodeAsWatched(anime_id, no).then(() =>
+                                            respond(res, `Marked ${anime_name}E#${no} as watched`, 201, `{"res":"Marked ${anime_name}E#${no} as watched"}`)
+                                        ).catch((err) => respond(res, `Marking ${anime_name}E#${no} as watched failed`, 500, `{"error":"${err}"}`, err));
                                 else
-                                    respond(res, `E#${no} of ${anime_name} was not found...`, 404, `{"res":"E#${no} of ${anime_name} was not found..."}`, " ");
+                                    respond(res, `E#${no} of ${anime_name} not found`, 404, `{"res":"E#${no} of ${anime_name} not found"}`, " ");
                             })
                         }
-                    }).catch((err) => respond(res, `Getting ${anime_name} failed...`, 500, `{"error":"${err}"}`, err));
+                    }).catch((err) =>
+                        respond(res, `Getting ${anime_name} failed`, 500, `{"error":"${err}"}`, err));
                 }
             }
             else
-                respond(res, "Bad params...", 422, `{"error": "${err}"}`, "Bad params");
+                respond(res, "Bad params", 422, `{"error": "${err}"}`, "Bad params");
             break;
+        case "DELETE":
+            if (pathname === "/clear") {
+                db.clear().then(() =>
+                    respond(res, "Db has been cleared succesfully", 204, nullJSON)
+                ).catch((err) =>
+                    respond(res, "Db clear failed", 500, `{"error": "${err}}`, err));
+            }
+            else
+                respond(res, "Bad params", 422, `{"error": "${err}"}`, "Bad params");
+            break;
+        case "OPTIONS":
+            () => respond(res, "Ok", 200, nullJSON)
         default:
-            respond(res, "Not implemented...", 501, `{"error":"Not implemented"}`, " ")
+            respond(res, "Not implemented", 501, `{"error":"Not implemented"}`, " ");
             break;
     }
 })

@@ -1,53 +1,67 @@
-const ctkAnimeScraper = require("ctk-anime-scraper");
+const fetch = require("cross-fetch");
 
 const angry_miku_url = "https://s3.amazonaws.com/colorslive/png/552486-rsfMmEPLCm18L2-_.png";
 
 const nullEpisode = {
-    name: "Not found",
-    episodeCount: '0',
-    id: "notFound"
+    name: "null",
+    episodeCount: 0,
+    url: "empty"
 }
 
-const scraper = new ctkAnimeScraper.Gogoanime(
-    { base_url: "https://anitaku.to/" }
-);
+const info_api = "https://api.jikan.moe/v4/";
+const video_api = "http://2anime.xyz/embed/";
 
 function lookForAnime(searchQuery) {
     return new Promise((resolve, reject) => {
-        scraper.search(searchQuery).then(results => {
-            if (results.length !== 0)
-                resolve(results[0]);
-            else
-                reject(`Cannot find anime: ${searchQuery}`)
-        }).catch((err) => console.error(err))
-    }).catch((err) => console.error(err));
+        fetch(`${info_api}anime?q=${searchQuery}`).then(results => {
+            resolve(results.json());
+        }).catch((err) => {
+            console.error(err)
+            reject(err)
+        });
+    }).catch((err) => {
+        console.error(err)
+        reject(err)
+    });
 }
 
 function lookForAnimeName(searchQuery) {
     return new Promise((resolve, reject) => {
-        lookForAnime(searchQuery).then(result => {
-            resolve(result.title)
-        }).catch((err) => console.error(err));
+        lookForAnime(searchQuery).then(result => {//could change
+            if (result.pagination.items.count != 0){
+                const name = result.data[0].title_english;
+                resolve(name)
+            }
+            else
+                resolve(nullEpisode.name)
+        }).catch((err) => {
+            console.error(err)
+            reject(err)
+        });
     }).catch((err) => {
         console.error(err)
         reject(err)
-    })
+    });
 }
 
 function lookForEpisode(searchQuery, episodeNumber) {
     return new Promise((resolve, reject) => {
-        lookForAnime(searchQuery).then(result => {
-            scraper.fetchAnime(result.link).then(anime => {
-                scraper.getEpisodes(anime.slug, episodeNumber).then(episode => {
-                    if (anime.slug === undefined)
-                        reject(`Anime (${searchQuery}) slug does not exist...`)
-                    else
-                        resolve(episode)
-                })
-            })
+        lookForAnime(searchQuery).then(result => {//could change
+            if (result.pagination.items.count != 0) {
+                const anime_title = result.data[0].title;
+                const url = `${video_api}${anime_title.toLowerCase()
+                    .replaceAll(" ", "-")}-episode-${episodeNumber}`;
+                const episode = {
+                    name: `${anime_title}#episodeNumber`,
+                    url: `${url}`
+                }
+                resolve(episode)
+            }
+            else
+                resolve(nullEpisode)
         }).catch((err) => {
             console.error(err)
-            resolve(nullEpisode)
+            reject(err)
         })
     })
 }
@@ -56,16 +70,16 @@ function lookForEpisodeURL(searchQuery, episodeNumber, timeout = 100) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             lookForEpisode(searchQuery, episodeNumber).then(episode => {
-                console.log(episode == nullEpisode);
-                if (episode == nullEpisode)
+                if (episode == nullEpisode) {
+                    console.error(`Cannot find anime: ${searchQuery}`)
                     resolve(angry_miku_url);
-                else {
-                    let root = "embtaku.pro"
-                    let url = "https://" + root + "/streaming.php?id="
-                    url += episode.id;
-                    resolve(url);
                 }
-            }).catch((err) => console.error(err));
+                else
+                    resolve(episode.url);
+            }).catch((err) => {
+                console.error(err)
+                reject(err)
+            });
         }, timeout)
     })
 }
@@ -74,12 +88,11 @@ function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             lookForAnime(searchQuery).then(result => {
-                scraper.fetchAnime(result.link).then(anime => {
-                    resolve(anime.episodeCount)
-                }).catch((err) => console.error(err))
+                const episodeCount = result.data[0].episodes;
+                resolve(episodeCount)
             }).catch((err) => {
                 console.error(err)
-                resolve(0)
+                reject(err)
             })
         }, timeout)
     })
@@ -88,5 +101,5 @@ function lookForEpisodeCount(searchQuery = "naruto", timeout = 100) {
 module.exports = {
     getAnimeName: (searchQuery = "naruto") => lookForAnimeName(searchQuery),
     getAnimeURL: (searchQuery = "naruto", episodeNumber = 1) => lookForEpisodeURL(searchQuery, episodeNumber),
-    getEpisodeCount: (searchQuery = "naruto") => lookForEpisodeCount(searchQuery)
+    getEpisodeCount: (searchQuery = "naruto") => lookForEpisodeCount(searchQuery),
 }

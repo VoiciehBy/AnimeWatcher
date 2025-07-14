@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 import { DbService } from 'src/services/db.service';
 
-import { getAnimeURL } from "../../../../utils";
+import { getAnimeURL} from "../../../../utils";
 import c from "../../constants.json";
 
 import { episode } from "../../episode";
@@ -83,5 +83,14 @@ export class AnimeEpisodeSelectorComponent {
     if (this.currentEpisode + 1 <= this.episodeCount)
       this.currentEpisode++;
     this.selectEpisode(this.currentEpisode);
+  }
+
+  clearEpisode(index: number): void{
+    this.db.markEpisodeAsNotWatched(this.currentShowName, index + 1).subscribe({
+      next: (data: any) => console.log(data),
+      error: (err: any) => console.error(err),
+      complete: () => console.log(`Clearing ${this.currentShowName}E#${index + 1} completed`)
+    })
+    this.player.setEpisodesUpdateNeed(true);
   }
 }

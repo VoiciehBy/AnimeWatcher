@@ -30,6 +30,8 @@ export class SearchComponent {
     this.player.showNameState.subscribe(s => this.currentShowName = s);
     this.player.srcState.subscribe(src => this.src = src);
     this.player.totalEpisodeState.subscribe(x => this.episodeCount = x);
+    
+    this.onSearchButtonClick();
   }
 
   setAnimeName(searchQuery: string) {

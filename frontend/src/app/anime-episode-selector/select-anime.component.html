@@ -1,16 +1,25 @@
 <div id="selectAnimeNavbar" class="collapse">
   <div class="d-flex flex-column episodeContainer">
     <div class="d-grid gap-2">
-      <div *ngFor="let e of episodes;let i = index" (click)="selectEpisode(i)">
-        <button *ngIf="!episodes[i].watched;else notWatched"
-          class="btn btn-dark badge fs-6 text-uppercase episodeSelectButton" type="button">
-          Episode {{i + 1}}
-        </button>
-        <ng-template #notWatched>
-          <button class="btn btn-light badge fs-6 text-uppercase episodeSelectButton" type="button">
+      <div *ngFor="let e of episodes;let i = index">
+        <div class="btn-group" role="group" aria-label="Anime Selection Button Group">
+          <button *ngIf="!episodes[i].watched;else notWatched"
+            class="btn btn-light badge fs-6 text-uppercase episodeSelectButton" type="button" (click)="selectEpisode(i)">
             Episode {{i + 1}}
           </button>
-        </ng-template>
+          <ng-template #notWatched>
+            <button class="btn btn-light badge fs-6 text-uppercase episodeSelectButton opacity-75" type="button"
+              (click)="selectEpisode(i)">
+              Episode {{i + 1}}
+            </button>
+          </ng-template>
+          <button class="btn btn-light badge fs-6 text-uppercase episodeSelectButton" type="button"
+            (click)="clearEpisode(i)">
+            <a class="nav-link">
+              <span><i class="bi bi-eraser object-fit-fill fs-6"></i></span>
+            </a>
+          </button>
+        </div>
       </div>
     </div>
   </div>
