@@ -130,10 +130,24 @@ module.exports = {
             resolve();
         })
     }),
-    clear: () => db.serialize(() => {
+    markEpisodeAsNotWatched: (anime_id, no) => new Promise((resolve, reject) => {
+        db.serialize(() => {
+            let stmt = db.prepare(
+                `UPDATE episodes 
+                SET watched = 0
+                WHERE anime_id = ${anime_id}
+                AND no = ${no};`
+            );
+            stmt.run();
+            stmt.finalize();
+            resolve();
+        })
+    }),
+    clear: () => new Promise((resolve, reject) => db.serialize(() => {
         db.run("DELETE FROM episodes;");
         db.run("DELETE FROM animes;");
-        db.run("DROP TABLE episodes;");
-        db.run("DROP TABLE animes;");
-    })
+        //db.run("DROP TABLE episodes;");
+        //db.run("DROP TABLE animes;");
+        resolve("Database was cleared");
+    }))
 }
