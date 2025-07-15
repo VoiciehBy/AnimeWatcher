@@ -12,27 +12,21 @@ import { AnimeEpisodeSelectorComponent } from './anime-episode-selector/select-a
 import { SearchComponent } from './search/search.component';
 import { CurrentEpisodeComponent } from './current-episode/current-episode.component';
 import { PlayerComponent } from './player/player.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    PPipe,
-    AnimeEpisodeSelectorComponent,
-    SearchComponent,
-    CurrentEpisodeComponent,
-    PlayerComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule
-  ],
-  providers: [
-    PlayerService,
-    DbService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        NavbarComponent,
+        PPipe,
+        AnimeEpisodeSelectorComponent,
+        SearchComponent,
+        CurrentEpisodeComponent,
+        PlayerComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        FormsModule], providers: [
+        PlayerService,
+        DbService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
