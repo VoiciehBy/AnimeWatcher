@@ -16,6 +16,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@angular/animations": "^17.1.0",
+    "@angular/cli": "^20.1.0",
     "@angular/common": "^17.1.0",
     "@angular/compiler": "^17.1.0",
     "@angular/core": "^17.1.0",
@@ -33,7 +34,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.1.1",
-    "@angular/cli": "~16.2.0",
     "@angular/compiler-cli": "^17.1.0",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
