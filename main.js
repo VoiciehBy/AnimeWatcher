@@ -17,6 +17,7 @@ const createWindow = () => {
             nodeIntegration: true
         }
     })
+
     if (config.devMode == false)
         window.setMenu(null)
 
@@ -24,6 +25,7 @@ const createWindow = () => {
         ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
             blocker.enableBlockingInSession(window.webContents.session);
         })
+        window.webContents.setWindowOpenHandler((details) => { action: "deny" })
     }
 
     window.loadURL(`${__dirname}/frontend/dist/index.html`)

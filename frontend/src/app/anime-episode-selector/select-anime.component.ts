@@ -39,9 +39,10 @@ export class AnimeEpisodeSelectorComponent {
 
     this.updateEpisodes();
     setInterval(() => {
-      if (this.isEpisodesNeedToBeUpdated)
+      if (this.isEpisodesNeedToBeUpdated) {
         this.updateEpisodes();
-      this.player.setEpisodesUpdateNeed(false);
+        this.player.setEpisodesUpdateNeed(false);
+      }
     }, 3000);
   }
 

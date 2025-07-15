@@ -148,8 +148,6 @@ module.exports = {
     clear: () => new Promise((resolve, reject) => db.serialize(() => {
         db.run("DELETE FROM episodes;");
         db.run("DELETE FROM animes;");
-        //db.run("DROP TABLE episodes;");
-        //db.run("DROP TABLE animes;");
         resolve("Database was cleared");
     }))
 }
