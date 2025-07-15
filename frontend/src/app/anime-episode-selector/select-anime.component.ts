@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 import { DbService } from 'src/services/db.service';
 
-import { getAnimeURL} from "../../../../utils";
+import { getAnimeURL } from "../../../../utils";
 import c from "../../constants.json";
 
 import { episode } from "../../episode";
 
 @Component({
-    selector: 'app-select-anime',
-    templateUrl: './select-anime.component.html',
-    styleUrls: ['./select-anime.component.css'],
-    standalone: false
+  selector: 'app-select-anime',
+  templateUrl: './select-anime.component.html',
+  styleUrls: ['./select-anime.component.css'],
+  standalone: false
 })
 
 export class AnimeEpisodeSelectorComponent {
@@ -50,7 +50,7 @@ export class AnimeEpisodeSelectorComponent {
     this.db.getAnimeEpisodes(this.currentShowName).subscribe({
       next: (data: any) => {
         for (let i = 0; i < data.length; i++)
-          this.episodes.push(new episode(1, data[i].anime_id, data[i].watched));
+          this.episodes.push(new episode(1, data[i].anime_id, data[i].name, data[i].watched));
       },
       error: (err: any) => console.error(err),
       complete: () => { }
@@ -86,7 +86,7 @@ export class AnimeEpisodeSelectorComponent {
     this.selectEpisode(this.currentEpisode);
   }
 
-  clearEpisode(index: number): void{
+  clearEpisode(index: number): void {
     this.db.markEpisodeAsNotWatched(this.currentShowName, index + 1).subscribe({
       next: (data: any) => console.log(data),
       error: (err: any) => console.error(err),

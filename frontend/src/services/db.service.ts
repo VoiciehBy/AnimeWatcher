@@ -9,11 +9,11 @@ export class DbService {
 
     private httpOptions: any;
 
-    constructor(private http: HttpClient) { 
+    constructor(private http: HttpClient) {
         this.httpOptions = {
             headers: new HttpHeaders({
-                "Access-Control-Allow-Origin":"*",
-                "Access-Control-Allow-Methods":"GET, POST, PUT, DELETE, OPTIONS"
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
             })
         }
     }
@@ -31,22 +31,22 @@ export class DbService {
     }
 
     addAnime(name: string = ''): Observable<any> {
-        return this.http.put(`${this.host}/new_anime?name=${name}`, {},  this.httpOptions);
+        return this.http.put(`${this.host}/new_anime?name=${name.replaceAll("'", "")}`, {}, this.httpOptions);
     }
 
-    addAnimeEp(anime_name: string = '', no: number = 1): Observable<any> {
-        return this.http.put(`${this.host}/new_episode?anime_name=${anime_name}&no=${no}`, {},  this.httpOptions);
+    addAnimeEp(anime_name: string = '', no: number = 1, name: string = ''): Observable<any> {
+        return this.http.put(`${this.host}/new_episode?anime_name=${anime_name}&no=${no}&name=${name}`, {}, this.httpOptions);
     }
 
     markEpisodeAsWatched(anime_name: string = '', no: number = 1): Observable<any> {
-        return this.http.patch(`${this.host}/episode?anime_name=${anime_name}&no=${no}`, {},  this.httpOptions);
+        return this.http.patch(`${this.host}/episode?anime_name=${anime_name}&no=${no}`, {}, this.httpOptions);
     }
 
     markEpisodeAsNotWatched(anime_name: string = '', no: number = 1): Observable<any> {
-        return this.http.patch(`${this.host}/episode?anime_name=${anime_name}&no=${no}&watched=false`, {},  this.httpOptions);
+        return this.http.patch(`${this.host}/episode?anime_name=${anime_name}&no=${no}&watched=false`, {}, this.httpOptions);
     }
 
-    clearDb(): Observable<any>{
+    clearDb(): Observable<any> {
         return this.http.delete(`${this.host}/clear`, {});
     }
 }

@@ -75,7 +75,7 @@ server.on("request", (req, res) => {
                     let name = params.get("name");
                     db.getAnime(name).then((result) => {
                         if (JSON.stringify(result) === nullJSON)
-                            db.addAnime(name).then(() =>
+                            db.addAnime(name.replaceAll("'", "")).then(() =>
                                 respond(res, `${name} was added`, 201, `{"res":"${name} was added"}`)
                             ).catch((err) =>
                                 respond(res, `Adding ${name} failed`, 500, `{"error":"${err}"}`, err));
@@ -85,9 +85,10 @@ server.on("request", (req, res) => {
                 }
             }
             else if (pathname === "/new_episode") {
-                if (params.has("anime_name") && params.has("no")) {
+                if (params.has("anime_name") && params.has("no") && params.has("name")) {
                     let anime_name = params.get("anime_name");
                     let no = params.get("no");
+                    let name = params.get("name");
                     db.getAnime(anime_name).then((result) => {
                         if (JSON.stringify(result) === nullJSON)
                             respond(res, `${anime_name} not found`, 404, JSON.stringify(result), " ");
@@ -95,7 +96,7 @@ server.on("request", (req, res) => {
                             let anime_id = result.id;
                             db.getAnimeEp(anime_name, no).then((result) => {
                                 if (JSON.stringify(result) === nullJSON)
-                                    db.addAnimeEp(anime_id, no).then(() => {
+                                    db.addAnimeEp(anime_id, no, name).then(() => {
                                         respond(res, `${anime_name}E#${no} added`, 201, `{"res":"${anime_name}E#${no} added"}`);
                                     }).catch((err) =>
                                         respond(res, `Adding ${anime_name}E#${no} failed`, 500, `{"error":"${err}"}`, err));

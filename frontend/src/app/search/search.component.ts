@@ -10,10 +10,10 @@ import {
 import c from "../../constants.json";
 
 @Component({
-    selector: 'app-search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.css'],
-    standalone: false
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  standalone: false
 })
 
 export class SearchComponent {
@@ -31,7 +31,7 @@ export class SearchComponent {
     this.player.showNameState.subscribe(s => this.currentShowName = s);
     this.player.srcState.subscribe(src => this.src = src);
     this.player.totalEpisodeState.subscribe(x => this.episodeCount = x);
-    
+
     this.onSearchButtonClick();
   }
 
@@ -39,10 +39,10 @@ export class SearchComponent {
     getAnimeName(searchQuery).then(
       (result: any) => {
         this.player.setShowName(result);
-        this.db.addAnime(result).subscribe({
+        this.db.addAnime(result.replaceAll("'", "")).subscribe({
           next: (data: any) => console.log(data),
           error: (err: any) => console.error(err),
-          complete: () => console.log(`Adding ${result} completed...`)
+          complete: () => console.log(`Adding ${result.replaceAll("'", "")} completed...`)
         })
       }
     ).catch((err: any) => {
@@ -65,7 +65,7 @@ export class SearchComponent {
       (result: any) => {
         this.player.setTotalEpisodeCount(+result);
         for (let i = 0; i < this.episodeCount; i++)
-          this.db.addAnimeEp(this.currentShowName, i + 1).subscribe({
+          this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
             next: (data: any) => console.log(data),
             error: (err: any) => console.error(err),
             complete: () => console.log(`Adding E#${i + 1} of ${this.currentShowName} completed...`)

@@ -62,7 +62,7 @@ app.whenReady().then(() => {
     db.clear()
     db.createTables();
     db.addAnime("Akira");
-    db.addAnimeEp(1, 1);
+    db.addAnimeEp(1, 1, "Akira");
 })
 
 app.on("browser-window-focus", () => {

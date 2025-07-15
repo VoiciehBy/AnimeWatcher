@@ -9,7 +9,8 @@ module.exports = {
                 );`);
         db.run(`CREATE TABLE IF NOT EXISTS episodes(
                  anime_id INTEGER, 
-                 no INTEGER, 
+                 no INTEGER,
+                 name TEXT,
                  watched BOOLEAN NOT NULL CHECK(watched IN(0,1))
               );`);
     }),
@@ -23,7 +24,7 @@ module.exports = {
     },
     showEpisodes: () => {
         db.serialize(() => {
-            db.each(`SELECT rowid as id, anime_id, no, watched
+            db.each(`SELECT rowid as id, anime_id, no, name, watched
                      FROM episodes;`, (err, row) => {
                 console.log(row);
             });
@@ -103,12 +104,13 @@ module.exports = {
             resolve(sql);
         })
     }),
-    addAnimeEp: (anime_id, no) => new Promise((resolve, reject) => {
+    addAnimeEp: (anime_id, no, name) => new Promise((resolve, reject) => {
         db.serialize(() => {
             let stmt = db.prepare(
                 `INSERT INTO episodes VALUES (
                                     ${anime_id}, 
                                     ${no},
+                                    "${name}",
                                     FALSE
                                    );`
             );
