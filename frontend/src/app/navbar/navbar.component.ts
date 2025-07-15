@@ -3,9 +3,10 @@ import { DbService } from 'src/services/db.service';
 import { PlayerService } from 'src/services/player.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css'],
+    standalone: false
 })
 
 export class NavbarComponent {

@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 
 @Component({
-  selector: 'app-current-episode',
-  templateUrl: './current-episode.component.html',
-  styleUrls: ['./current-episode.component.css']
+    selector: 'app-current-episode',
+    templateUrl: './current-episode.component.html',
+    styleUrls: ['./current-episode.component.css'],
+    standalone: false
 })
 
 export class CurrentEpisodeComponent {

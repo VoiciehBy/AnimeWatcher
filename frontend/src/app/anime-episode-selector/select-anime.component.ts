@@ -8,9 +8,10 @@ import c from "../../constants.json";
 import { episode } from "../../episode";
 
 @Component({
-  selector: 'app-select-anime',
-  templateUrl: './select-anime.component.html',
-  styleUrls: ['./select-anime.component.css']
+    selector: 'app-select-anime',
+    templateUrl: './select-anime.component.html',
+    styleUrls: ['./select-anime.component.css'],
+    standalone: false
 })
 
 export class AnimeEpisodeSelectorComponent {
