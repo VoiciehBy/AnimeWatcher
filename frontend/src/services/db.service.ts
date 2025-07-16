@@ -47,6 +47,6 @@ export class DbService {
     }
 
     clearDb(): Observable<any> {
-        return this.http.delete(`${this.host}/clear`, {});
+        return this.http.delete(`${this.host}/all`, {});
     }
 }

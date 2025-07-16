@@ -2,7 +2,7 @@ const config = require("./config");
 const db = require("./db");
 const colors = require("colors");
 const fetch = require("cross-fetch");
-const { ElectronBlocker } = require("@cliqz/adblocker-electron");
+const { ElectronBlocker } = require("@ghostery/adblocker-electron");
 const { app, BrowserWindow } = require("electron");
 
 const createWindow = () => {
@@ -56,9 +56,8 @@ app.whenReady().then(() => {
     app.on("active", () => {
         let windows = BrowserWindow.getAllWindows();
         let windowsCount = windows.length;
-        if (windowsCount == 0) {
-            createWindow()
-        }
+        if (windowsCount == 0)
+            createWindow();
     })
 
     db.clear()

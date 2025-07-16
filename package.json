@@ -12,7 +12,8 @@
     "dist-win": "npm run build & electron-builder -w",
     "dist-linux": "npm run build & electron-builder -l",
     "dist-mac": "npm run build & electron-builder -m",
-    "ng-serve": "npm run ng serve --prefix ./frontend"
+    "ng-serve": "npm run ng serve --prefix ./frontend",
+    "server": "node server.js"
   },
   "private": true,
   "author": "VoiciehBy",
@@ -55,7 +56,7 @@
     }
   },
   "dependencies": {
-    "@cliqz/adblocker-electron": "^1.26.6",
+    "@ghostery/adblocker-electron": "^2.11.1",
     "boolean": "^3.1.4",
     "buffer-crc32": "^0.2.13",
     "buffer-from": "^1.1.2",

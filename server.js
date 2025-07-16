@@ -143,7 +143,7 @@ server.on("request", (req, res) => {
                 respond(res, "Bad params", 422, `{"error": "${err}"}`, "Bad params");
             break;
         case "DELETE":
-            if (pathname === "/clear") {
+            if (pathname === "/all") {
                 db.clear().then(() =>
                     respond(res, "Db has been cleared succesfully", 204, nullJSON)
                 ).catch((err) =>
@@ -153,7 +153,8 @@ server.on("request", (req, res) => {
                 respond(res, "Bad params", 422, `{"error": "${err}"}`, "Bad params");
             break;
         case "OPTIONS":
-            () => respond(res, "Ok", 200, nullJSON)
+            respond(res, "Ok", 200, nullJSON)
+            break;
         default:
             respond(res, "Not implemented", 501, `{"error":"Not implemented"}`, " ");
             break;
