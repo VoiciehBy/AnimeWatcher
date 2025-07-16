@@ -1,5 +1,6 @@
 {
     "devMode": true,
     "adBlockerEnabled": true,
-    "clearCacheEnabled": true
+    "clearCacheEnabled": true,
+    "db_path": "./sqlite/xd.db"
 }
