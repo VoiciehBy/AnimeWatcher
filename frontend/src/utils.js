@@ -100,6 +100,21 @@ async function lookForEpisodeURL(query, epNum) {
     })
 }
 
+function lookForEpisodes(id, timeout = 1000) {
+    return new Promise((resolve, reject) => {
+        const url = `${info_api}anime/${id}/episodes`;
+        fetch(url).then(results => {
+            resolve(results.json());
+        }).catch((err) => {
+            console.error(err)
+            reject(err)
+        });
+    }).catch((err) => {
+        console.error(err)
+        reject(err)
+    });
+}
+
 async function lookForEpisodeCount(query = "naruto") {
     return new Promise((resolve, reject) => {
         lookForAnime(query).then(res => {
