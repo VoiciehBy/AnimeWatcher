@@ -6,7 +6,7 @@ import {
   getAnimeName,
   getAnimeURL,
   getEpisodeCount
-} from "../../../../utils";
+} from "../../utils";
 import c from "../../constants.json";
 
 @Component({

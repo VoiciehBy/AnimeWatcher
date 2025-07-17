@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 import { DbService } from 'src/services/db.service';
 
-import { getAnimeURL } from "../../../../utils";
+import { getAnimeURL } from "../../utils";
 import c from "../../constants.json";
 
 import { episode } from "../../episode";
