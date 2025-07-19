@@ -43,7 +43,8 @@ export class AnimeEpisodeSelectorComponent {
         this.updateEpisodes();
         this.player.setEpisodesUpdateNeed(false);
       }
-    }, 3000);
+      this.player.setEpisodesUpdateNeed(true);
+    }, 10000);
   }
 
   updateEpisodes(): void {

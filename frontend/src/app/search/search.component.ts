@@ -60,10 +60,11 @@ export class SearchComponent {
     ).catch((err: any) => console.error(err))
   }
 
-  setEpisodeCount(searchQuery: string = "akira") {
-    getEpisodeCount(searchQuery).then(
+  async setEpisodeCount(searchQuery: string = "akira") {
+    await getEpisodeCount(searchQuery).then(
       (result: any) => {
         this.player.setTotalEpisodeCount(+result);
+        this.player.setEpisodesUpdateNeed(true);
         for (let i = 0; i < this.episodeCount; i++)
           this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
             next: (data: any) => console.log(data),
@@ -72,6 +73,17 @@ export class SearchComponent {
           });
       })
       .catch((err: any) => console.error(err));
+      await getEpisodeCount(searchQuery).then(
+        (result: any) => {
+          this.player.setTotalEpisodeCount(+result);
+          for (let i = 0; i < this.episodeCount; i++)
+            this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
+              next: (data: any) => console.log(data),
+              error: (err: any) => console.error(err),
+              complete: () => console.log(`Adding E#${i + 1} of ${this.currentShowName} completed...`)
+            });
+        })
+        .catch((err: any) => console.error(err));
   }
 
   onSearchButtonClick() {

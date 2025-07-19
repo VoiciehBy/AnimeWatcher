@@ -13,75 +13,78 @@ const nullEpisode = {
 
 async function lookForAnime(query, timeout = 1000) {
     return new Promise((resolve, reject) => {
-        setTimeout(() => fetch(`${info_api}anime?q=${query
-            .toLowerCase()
-            .replaceAll(" ", "-")}}&min_score=1.0`).then(res => {
-                resolve(res.json());
-            }).catch((err) => {
-                console.error(err)
-                reject(err)
-            }), timeout)
-    }).catch((err) => {
-        console.error(err)
-        reject(err)
-    });
+        setTimeout(() => {
+            fetch(`${info_api}anime?q=${query
+                .toLowerCase()
+                .replaceAll(" ", "-")}}&min_score=1.0`).then(res => {
+                    res.json().then(res => {
+                        if (res.data[0] != undefined)
+                            resolve(res.data[0]);
+                        else
+                            reject(`Cannot find anime: ${query}`);
+                    }).catch((err) => console.error(err))
+                }).catch((err) => console.error(err))
+        }, timeout)
+    }).catch((err) => console.error(err))
 }
 
 async function lookForAnimeName(query) {
     return new Promise((resolve, reject) => {
-        lookForAnime(query).then(res => {
-            const animes = res.data;
-            const anime = { title: animes[0].title };
-            if (anime != undefined)
-                resolve(anime.title)
-            resolve(nullEpisode.name)
-        }).catch((err) => {
-            console.error(err)
-            reject(err)
-        });
-    }).catch((err) => {
-        console.error(err)
-        reject(err)
-    });
+        lookForAnime(query).then(anime => {
+            const _anime = { title: anime.title };
+            if (anime != undefined && _anime != undefined)
+                resolve(_anime.title);
+            resolve(nullEpisode.name);
+        }).catch((err) => console.error(err))
+    }).catch((err) => console.error(err))
 }
 
-async function lookForEpisode(query, epNum) {
+function lookForEpisodes(id, timeout = 1000) {
     return new Promise((resolve, reject) => {
-        lookForAnime(query).then(res => {
-            const animes = res.data;
-            const anime = {
-                id: animes[0].mal_id,
-                title: animes[0].title,
-                type: animes[0].type
-            }
-            if (anime.id != undefined) {
+        setTimeout(() => {
+            fetch(`${info_api}anime/${id}/episodes`).then(res => {
+                res.json().then(res => {
+                    if (res.data != undefined && res.data.length != 0)
+                        resolve(res.data);
+                    reject(`Cannot find episodes of: ${id}`)
+                }).catch((err) => console.error(err))
+            }).catch((err) => console.error(err))
+        }, timeout)
+    }).catch((err) => console.error(err))
+}
+
+async function lookForEpisode(query, epNum, timeout = 1000) {
+    return new Promise((resolve, reject) => {
+        lookForAnime(query).then(anime => {
+            if (anime != undefined) {
+                const _anime = {
+                    id: anime.mal_id,
+                    title: anime.title,
+                    type: anime.type
+                }
                 const episode = {
-                    id: anime.id,
-                    name: anime.title,
-                    url: `${video_api}${anime.title
-                        .toLowerCase()
+                    id: _anime.id,
+                    name: _anime.title,
+                    url: `${video_api}${_anime.title.toLowerCase()
                         .replaceAll(" ", "-")}-episode-${epNum}`
                 }
-                if (anime.type != "Movie")
-                    fetch(`${info_api}anime/${anime.id}/episodes`).then(res => {
-                        res.json().then(res => {
-                            const episodes = res.data;
-                            if (episodes[0] != undefined) {
-                                episode.name = `${anime.title} - ${episodes[epNum - 1].title}`;//could change
+                if (_anime.type === "Movie")
+                    resolve(episode);
+                else
+                    setTimeout(() => {
+                        lookForEpisodes(_anime.id).then(eps => {
+                            if (eps != undefined && _anime != undefined) {
+                                if (eps[epNum - 1] != undefined)
+                                    episode.name = `${_anime.title} - ${eps[epNum - 1].title}`;//could change
                                 resolve(episode);
                             }
                             resolve(nullEpisode);
-                        })
-                    })
-                else
-                    resolve(episode);
+                        }).catch((err) => console.error(err))
+                    }, timeout)
             }
             else
                 resolve(nullEpisode);
-        }).catch((err) => {
-            console.error(err);
-            reject(err);
-        })
+        }).catch((err) => console.error(err))
     })
 }
 
@@ -89,60 +92,32 @@ async function lookForEpisodeURL(query, epNum) {
     return new Promise((resolve, reject) => {
         lookForEpisode(query, epNum).then(episode => {
             if (episode == nullEpisode) {
-                console.error(`Cannot find anime: ${query}`);
+                console.error(`Cannot find episodes of anime: ${query}`);
                 resolve(angry_miku_url);
             }
             resolve(episode.url);
-        }).catch((err) => {
-            console.error(err)
-            reject(err)
-        })
+        }).catch((err) => console.error(err))
     })
-}
-
-function lookForEpisodes(id, timeout = 1000) {
-    return new Promise((resolve, reject) => {
-        const url = `${info_api}anime/${id}/episodes`;
-        fetch(url).then(results => {
-            resolve(results.json());
-        }).catch((err) => {
-            console.error(err)
-            reject(err)
-        });
-    }).catch((err) => {
-        console.error(err)
-        reject(err)
-    });
 }
 
 async function lookForEpisodeCount(query = "naruto") {
     return new Promise((resolve, reject) => {
-        lookForAnime(query).then(res => {
-            const animes = res.data;
-            const anime = {
-                id: animes[0].mal_id,
-                airing: animes[0].airing,
-                type: animes[0].type,
-                episodeCount: animes[0].episodes
-            }
+        lookForAnime(query).then(anime => {//could change
+            console.log(anime)
             if (anime === undefined)
                 resolve(0)
             else if (anime.airing === false)
-                resolve(anime.episodeCount)
+                resolve(anime.episodes)//epCount
             else if (anime.type === "Movie")
                 resolve(1);
             else {
-                lookForEpisodes(anime.id).then(res => {
-                    resolve(res.data.length)
-                }).catch((err) => {
-                    console.error(err)
-                    reject(err)
-                })
+                lookForEpisodes(anime.mal_id).then(eps => {
+                    if (eps != undefined)
+                        resolve(eps.length);
+                    resolve(0);
+                }).catch((err) => console.error(err))
             }
-        }).catch((err) => {
-            console.error(err)
-            reject(err)
-        })
+        }).catch((err) => console.error(err))
     })
 }
 
