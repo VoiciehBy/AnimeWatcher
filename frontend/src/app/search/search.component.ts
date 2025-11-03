@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 import { DbService } from 'src/services/db.service';
 
-import {
-  getAnimeName,
-  getAnimeURL,
-  getEpisodeCount
-} from "../../utils";
+import { JikanResponse, Anime, AnimeClient, AnimeSearchParams, AnimeEpisode } from '@tutkli/jikan-ts';
 import c from "../../constants.json";
 
 @Component({
@@ -36,54 +32,55 @@ export class SearchComponent {
   }
 
   setAnimeName(searchQuery: string) {
-    getAnimeName(searchQuery).then(
-      (result: any) => {
-        this.player.setShowName(result);
-        this.db.addAnime(result.replaceAll("'", "")).subscribe({
-          next: (data: any) => console.log(data),
-          error: (err: any) => console.error(err),
-          complete: () => console.log(`Adding ${result.replaceAll("'", "")} completed...`)
-        })
-      }
-    ).catch((err: any) => {
+    const animeClient = new AnimeClient();
+    const searchParams: AnimeSearchParams = {
+      q: searchQuery
+    }
+    animeClient.getAnimeSearch(searchParams).then((response: JikanResponse<Anime[]>) => {
+      let title = response.data[0].title;
+      this.player.setShowName(title);
+      this.db.addAnime(title.replaceAll("'", "")).subscribe({
+        next: (data: any) => console.log(data),
+        error: (err: any) => console.error(err),
+        complete: () => console.log(`Adding ${title.replaceAll("'", "")} completed...`)
+      })
+    }).catch((err: any) => {
       console.error(err);
       this.player.setShowName("cannot_find");
-    })
+    });
   }
 
   setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
-    getAnimeURL(searchQuery, episodeNumber).then(
-      (episodeURL: any) => {
+    const animeClient = new AnimeClient();
+    const searchParams: AnimeSearchParams = {
+      q: searchQuery
+    }
+    animeClient.getAnimeSearch(searchParams).then((response: JikanResponse<Anime[]>) => {
+      animeClient.getAnimeEpisodes(response.data[0].mal_id).then((eps: JikanResponse<AnimeEpisode[]>) => {
+        const _str_fun = (x : any) => x.toLowerCase().replaceAll(" ", "-");
+        const embed_url = (x : any, y : any) => `${c.video_api}${_str_fun(x)}-episode-${y}.mp4`;
+        const episodeURL = embed_url(this.currentShowName, episodeNumber)
         this.player.setSrc(episodeURL);
         this.player.setMikuAngry(episodeURL === c.angry_miku_url);
-      }
-    ).catch((err: any) => console.error(err))
+      })
+    }).catch((err: any) => console.error(err))
   }
 
   async setEpisodeCount(searchQuery: string = "akira") {
-    await getEpisodeCount(searchQuery).then(
-      (result: any) => {
-        this.player.setTotalEpisodeCount(+result);
-        this.player.setEpisodesUpdateNeed(true);
-        for (let i = 0; i < this.episodeCount; i++)
-          this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
-            next: (data: any) => console.log(data),
-            error: (err: any) => console.error(err),
-            complete: () => console.log(`Adding E#${i + 1} of ${this.currentShowName} completed...`)
-          });
-      })
-      .catch((err: any) => console.error(err));
-      await getEpisodeCount(searchQuery).then(
-        (result: any) => {
-          this.player.setTotalEpisodeCount(+result);
-          for (let i = 0; i < this.episodeCount; i++)
-            this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
-              next: (data: any) => console.log(data),
-              error: (err: any) => console.error(err),
-              complete: () => console.log(`Adding E#${i + 1} of ${this.currentShowName} completed...`)
-            });
-        })
-        .catch((err: any) => console.error(err));
+    const animeClient = new AnimeClient();
+    const searchParams: AnimeSearchParams = {
+      q: searchQuery
+    }
+    animeClient.getAnimeSearch(searchParams).then((response: JikanResponse<Anime[]>) => {
+      this.player.setTotalEpisodeCount(response.data[0].episodes);
+      this.player.setEpisodesUpdateNeed(true);
+      for (let i = 0; i < this.episodeCount; i++)
+        this.db.addAnimeEp(this.currentShowName, i + 1, "").subscribe({
+          next: (data: any) => console.log(data),
+          error: (err: any) => console.error(err),
+          complete: () => console.log(`Adding E#${i + 1} of ${this.currentShowName} completed...`)
+        });
+    }).catch((err: any) => console.error(err));
   }
 
   onSearchButtonClick() {

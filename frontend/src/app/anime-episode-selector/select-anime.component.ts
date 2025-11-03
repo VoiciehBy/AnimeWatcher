@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PlayerService } from 'src/services/player.service';
 import { DbService } from 'src/services/db.service';
 
-import { getAnimeURL } from "../../utils";
+import { JikanResponse, Anime, AnimeClient, AnimeSearchParams, AnimeEpisode } from '@tutkli/jikan-ts';
 import c from "../../constants.json";
 
 import { episode } from "../../episode";
@@ -60,11 +60,19 @@ export class AnimeEpisodeSelectorComponent {
   }
 
   setIFramePlayerSrc(searchQuery: string = "akira", episodeNumber: number = 1) {
-    getAnimeURL(searchQuery, episodeNumber).then(
-      (episodeURL: any) => {
+    const animeClient = new AnimeClient();
+    const searchParams: AnimeSearchParams = {
+      q: searchQuery
+    }
+    animeClient.getAnimeSearch(searchParams).then((response: JikanResponse<Anime[]>) => {
+      animeClient.getAnimeEpisodes(response.data[0].mal_id).then((eps: JikanResponse<AnimeEpisode[]>) => {
+        const _str_fun = (x : any) => x.toLowerCase().replaceAll(" ", "-");
+        const embed_url = (x : any, y : any) => `${c.video_api}${_str_fun(x)}-episode-${y}.mp4`;
+        const episodeURL = embed_url(this.currentShowName, episodeNumber)
         this.player.setSrc(episodeURL);
         this.player.setMikuAngry(episodeURL === c.angry_miku_url);
-      }).catch((err: any) => console.error(err));
+      })
+    }).catch((err: any) => console.error(err))
   }
 
   selectEpisode(index: number) {
