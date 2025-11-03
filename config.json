@@ -2,5 +2,9 @@
     "devMode": true,
     "adBlockerEnabled": true,
     "clearCacheEnabled": true,
-    "db_path": "./sqlite/xd.db"
+    "db_path": "./sqlite/xd.db",
+    "server_hostname": "127.0.0.1",
+    "server_port": 3000,
+    "file_server_hostname": "127.0.0.1",
+    "file_server_port": 8080
 }

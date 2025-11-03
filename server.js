@@ -1,9 +1,8 @@
+const config = require("./config");
 const http = require("http");
 const db = require("./db");
 
 const server = http.createServer();
-const port = 3000;
-const hostname = "127.0.0.1"
 
 function respond(res, msg, code, ending, err) {
     if (err != undefined)
@@ -161,6 +160,6 @@ server.on("request", (req, res) => {
     }
 })
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(config.server_port, config.server_hostname, () => {
+    console.log(`Server running at http://${config.server_hostname}:${config.server_port}/`);
 })
